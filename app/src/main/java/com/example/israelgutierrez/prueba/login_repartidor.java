@@ -28,6 +28,8 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
     String id;
     ArrayList<pedidos> registros;
     RequestQueue requestQueue;
+    RequestQueue requestQueue2;
+    String idRepartidor;
 
     @Override
 
@@ -40,6 +42,7 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
         entrar = (Button) findViewById(R.id.entrar);
         entrar.setOnClickListener(this);
         requestQueue= Volley.newRequestQueue(this);
+        requestQueue2= Volley.newRequestQueue(this);
         registros = new ArrayList();
 
     }
@@ -60,8 +63,10 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
                             if(success) {
                                  id = jsonResponse.getString("idUsuario");
                                 buscarPedidos();
+                                buscarIdRepartidor();
                                 String name = jsonResponse.getString("usuario");
                                 String tipoUser = jsonResponse.getString("tipo");
+
                                 Intent intent = new Intent(login_repartidor.this,lista_pedidos_por_entregar.class);
                                 intent.putParcelableArrayListExtra("lista", registros);
                                 intent.putExtra("idUsuario",id);
@@ -69,6 +74,7 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
                                 intent.putExtra("username",username);
                                 intent.putExtra("tipo",tipoUser);
                                 intent.putExtra("password",contrasena);
+                                intent.putExtra("idRepartidor",idRepartidor);
                                 startActivity(intent);
 
 
@@ -110,6 +116,7 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
                             lista = new pedidos();
                             JSONObject jsonObject = null;
                             jsonObject = json.getJSONObject(i);
+                            lista.setIdPedido(jsonObject.getInt("idPedido"));
                             lista.setNombreCliente(jsonObject.getString("nombreCliente"));
                             lista.setDireccion(jsonObject.getString("direccion"));
                             lista.setKilos((float) jsonObject.getDouble("kilos"));
@@ -136,5 +143,39 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
             }
         });
         requestQueue.add(request);
+    }
+
+    public void buscarIdRepartidor(){
+        final String url = "https://sgvshop.000webhostapp.com/buscarIdRepartidor.php?idUsuario="+id;
+
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    boolean success = jsonResponse.getBoolean("succes");
+                    if (success) {
+                        idRepartidor = jsonResponse.getString("idRepartidor");
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                //Toast.makeText(buscarRepartidor.this,"Registro Exitoso, Inicie Sesión.",Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(login_repartidor.this);
+                builder.setMessage("Error")
+                        .setNegativeButton("Aceptar", null)
+                        .create().show();
+            }
+        });
+        requestQueue2.add(request);
+
     }
 }

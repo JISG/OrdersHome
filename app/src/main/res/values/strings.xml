@@ -12,4 +12,5 @@
     <string name="title_activity_pedir_otra_direccion">Map</string>
     <string name="title_activity_confirmar_direccion">Map</string>
     <string name="title_activity_refina_ubicacion">Map</string>
+    <string name="title_activity_rastrear_pedido">Encuentra a tu Repartidor</string>
 </resources>

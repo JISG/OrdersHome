@@ -15,6 +15,7 @@ public class pedidos implements Parcelable {
     private String fecha;
     private String nombreSucursal;
     private String tipoTortilla;
+    private int idPedido;
 
     protected pedidos(Parcel in) {
         idUsuario = in.readInt();
@@ -26,6 +27,7 @@ public class pedidos implements Parcelable {
         fecha = in.readString();
         nombreSucursal = in.readString();
         tipoTortilla = in.readString();
+        idPedido = in.readInt();
     }
 
     public static final Creator<pedidos> CREATOR = new Creator<pedidos>() {
@@ -123,6 +125,7 @@ public class pedidos implements Parcelable {
         parcel.writeString(fecha);
         parcel.writeString(nombreSucursal);
         parcel.writeString(tipoTortilla);
+        parcel.writeInt(idPedido);
     }
 
     public String getTipoTortilla() {
@@ -132,4 +135,10 @@ public class pedidos implements Parcelable {
     public void setTipoTortilla(String tipoTortilla) {
         this.tipoTortilla = tipoTortilla;
     }
+
+    public void setIdPedido(int idPedido) {
+        this.idPedido = idPedido;
+    }
+
+    public int getIdPedido(){return idPedido;}
 }

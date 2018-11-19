@@ -40,6 +40,11 @@ public class miCuenta extends AppCompatActivity implements View.OnClickListener{
                 Intent intent1 = new Intent(miCuenta.this,PedirOtraDireccion.class);
                 intent1.putExtra("idUsuario",idUsuario);
                 startActivity(intent1);
+                break;
+            case R.id.notificaciones:
+                Intent intent2 = new Intent(miCuenta.this, RastrearPedido.class);
+                intent2.putExtra("idUsuario", idUsuario);
+                startActivity(intent2);
         }
 
     }
