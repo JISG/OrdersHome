@@ -110,7 +110,7 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
     public void hilo() {
         try {
             Thread.sleep(1000);
-            System.out.println("Hilo");
+            System.out.println("Hiloooo");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -139,6 +139,8 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
             ejecutar();
             String lt = String.valueOf(latitude);
             String lg = String.valueOf(longitude);
+            System.out.println("latitud: "+latitude);
+            System.out.println("longitud: "+longitude);
             Toast.makeText(lista_pedidos_por_entregar.this, "Cada 10 segundos: "+ lt + " "+ lg, Toast.LENGTH_SHORT).show();
             System.out.println("OnPost");
             final String url = "https://sgvshop.000webhostapp.com/insertCoordenadas.php?idRepartidor="+idRepartidor+"&latitud="+lt+"&longitud="+lg;
