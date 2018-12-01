@@ -33,15 +33,25 @@ import java.util.ArrayList;
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class RecyclerViewAdaptador2 extends RecyclerView.Adapter<RecyclerViewAdaptador2.ViewHolder> {
+    RequestQueue requestQueue;
+    int idPedido;
+    int posicion;
+    public ArrayList<pedidos> pedidosLista;
+    public String idRepartidor;
+    int idUsuario;
 
-    static RequestQueue requestQueue;
-    static int idPedido;
     public RecyclerViewAdaptador2() {
 
     }
 
 
-    public static  class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public RecyclerViewAdaptador2(ArrayList<pedidos> pedidosLista, String idRepartidor) {
+        this.pedidosLista = pedidosLista;
+        this.idRepartidor = idRepartidor;
+    }
+
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 
         Context cont;
@@ -77,7 +87,7 @@ public class RecyclerViewAdaptador2 extends RecyclerView.Adapter<RecyclerViewAda
 
                 case R.id.notificar:
                     tomaDePedido();
-                    NotificationCompat.Builder mBuilder;
+                    /*NotificationCompat.Builder mBuilder;
                     NotificationManager mNotifyMgr =(NotificationManager) cont.getSystemService(NOTIFICATION_SERVICE);
                     int icono = R.mipmap.ic_launcher;
                     intent = new Intent(cont, lista_pedidos_por_entregar.class);
@@ -89,9 +99,15 @@ public class RecyclerViewAdaptador2 extends RecyclerView.Adapter<RecyclerViewAda
                     mBuilder.setContentText("Su pedido de tortillas ha zarpado, ¡En hora buena!");
                     mBuilder.setVibrate(new long[] {100, 250, 100, 500});
                     mBuilder.setAutoCancel(true);
-                    mNotifyMgr.notify(1, mBuilder.build());
+                    mNotifyMgr.notify(1, mBuilder.build());*/
+                    idUsuario = pedidosLista.get(posicion).getIdUsuario();
+                    System.out.println("idUsuariooooooooooooooo: "+idUsuario);
                     break;
             }
+        }
+
+        private void enviarNotificacion() {
+
         }
 
         private void tomaDePedido() {
@@ -120,13 +136,7 @@ public class RecyclerViewAdaptador2 extends RecyclerView.Adapter<RecyclerViewAda
         }
     }
 
-    public ArrayList<pedidos> pedidosLista;
-    public static String idRepartidor;
 
-    public RecyclerViewAdaptador2(ArrayList<pedidos> pedidosLista, String idRepartidor) {
-        this.pedidosLista = pedidosLista;
-        this.idRepartidor = idRepartidor;
-    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -137,7 +147,9 @@ public class RecyclerViewAdaptador2 extends RecyclerView.Adapter<RecyclerViewAda
 
     @Override
     public void onBindViewHolder(RecyclerViewAdaptador2.ViewHolder holder, int position) {
+        posicion=position;
         idPedido = pedidosLista.get(position).getIdPedido();
+        System.out.println("posicion: "+position);
         holder.nombre.setText(pedidosLista.get(position).getNombreCliente().toString());
         holder.direccion.setText(pedidosLista.get(position).getDireccion().toString());
         holder.horaEntrega.setText(pedidosLista.get(position).getHoraEntrega().toString());

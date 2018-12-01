@@ -63,6 +63,7 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
                             boolean success = jsonResponse.getBoolean("success");
                             if(success) {
                                  id = jsonResponse.getString("idUsuario");
+                                System.out.println("id: "+id);
                                 buscarPedidos();
                                 buscarIdRepartidor();
                                 String name = jsonResponse.getString("usuario");
@@ -103,6 +104,7 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
     public void buscarPedidos() {
 
         final String url = "https://sgvshop.000webhostapp.com/listarPedidos.php?idUsuario="+id;
+        System.out.println("Buscando pedidos del id: "+id);
 
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
@@ -149,7 +151,7 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
 
     public void buscarIdRepartidor(){
         final String url = "https://sgvshop.000webhostapp.com/buscarIdRepartidor.php?idUsuario="+id;
-
+        System.out.println("Buscando repartidor...");
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

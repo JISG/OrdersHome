@@ -56,7 +56,6 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
             txPedidos.setVisibility(View.VISIBLE);
         }
 
-
         Intent intent = getIntent();
         idRepartidor= intent.getStringExtra("idRepartidor");
         adaptadorPedidos = new RecyclerViewAdaptador2(prueba,idRepartidor);
@@ -95,7 +94,7 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
         // Register the listener with the Location Manager to receive location updates
         int permissionCheck = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 
     }
 
