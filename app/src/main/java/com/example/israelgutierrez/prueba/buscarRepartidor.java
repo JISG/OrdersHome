@@ -2,6 +2,7 @@ package com.example.israelgutierrez.prueba;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ public class buscarRepartidor extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buscar_repartidor);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         sucursales = new ArrayList<>();
         requestQueue2= Volley.newRequestQueue(this);
         buscarRepartidor = (Button) findViewById(R.id.buscarRepartidor);

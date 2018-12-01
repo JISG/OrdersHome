@@ -76,6 +76,7 @@ public class RecyclerViewAdaptador2 extends RecyclerView.Adapter<RecyclerViewAda
             switch (view.getId()){
 
                 case R.id.notificar:
+                    tomaDePedido();
                     NotificationCompat.Builder mBuilder;
                     NotificationManager mNotifyMgr =(NotificationManager) cont.getSystemService(NOTIFICATION_SERVICE);
                     int icono = R.mipmap.ic_launcher;
@@ -89,10 +90,6 @@ public class RecyclerViewAdaptador2 extends RecyclerView.Adapter<RecyclerViewAda
                     mBuilder.setVibrate(new long[] {100, 250, 100, 500});
                     mBuilder.setAutoCancel(true);
                     mNotifyMgr.notify(1, mBuilder.build());
-
-                    tomaDePedido();
-
-
                     break;
             }
         }

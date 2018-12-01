@@ -91,20 +91,7 @@ public class notificacion_pedido extends AppCompatActivity implements View.OnCli
             case R.id.notificar:
                 time time = new time();
                 time.execute();
-               /* NotificationCompat.Builder mBuilder;
-                NotificationManager mNotifyMgr =(NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
-                int icono = R.mipmap.ic_launcher;
-                intent = new Intent(notificacion_pedido.this, MainActivity.class);
-                PendingIntent pendingIntent = PendingIntent.getActivity(notificacion_pedido.this, 0,intent, 0);
-                mBuilder = new NotificationCompat.Builder(getApplicationContext());
-                mBuilder.setContentIntent (pendingIntent);
-                mBuilder.setSmallIcon(icono);
-                mBuilder.setContentTitle("OrdersHome pedido enviado");
-                mBuilder.setContentText("Su pedido de tortillas ha zarpado, ¡En hora buena!");
-                mBuilder.setVibrate(new long[] {100, 250, 100, 500});
-                mBuilder.setAutoCancel(true);
-                mNotifyMgr.notify(1, mBuilder.build());
-                */
+
                 // Acquire a reference to the system Location Manager
                 LocationManager locationManager = (LocationManager) notificacion_pedido.this.getSystemService(Context.LOCATION_SERVICE);
 

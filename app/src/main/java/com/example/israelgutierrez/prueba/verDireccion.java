@@ -1,5 +1,6 @@
 package com.example.israelgutierrez.prueba;
 
+import android.content.pm.ActivityInfo;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -19,6 +20,7 @@ public class verDireccion extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ver_direccion);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);

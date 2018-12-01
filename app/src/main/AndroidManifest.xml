@@ -28,14 +28,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".formularioRepartidor">
+        <activity android:name=".formularioRepartidor" android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".formulario_usuario_nuevo">
+        <activity android:name=".formulario_usuario_nuevo" android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -63,7 +63,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".formulario_empresa">
+        <activity android:name=".formulario_empresa" android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -129,8 +129,8 @@
             android:name=".verDireccion"
             android:exported="true"
             android:label="@string/title_activity_ver_direccion" />
-        <activity android:name=".miCuenta" />
-        <activity android:name=".editarCuenta">
+        <activity android:name=".miCuenta"  />
+        <activity android:name=".editarCuenta" android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -144,8 +144,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".masSucursales" />
-        <activity android:name=".buscarRepartidor">
+        <activity android:name=".masSucursales" android:noHistory="true" />
+        <activity android:name=".buscarRepartidor" android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -154,15 +154,9 @@
         </activity>
         <activity android:name=".listadoPedidosEntregados" />
         <activity android:name=".Direccion" />
-        <activity
-            android:name=".PedirOtraDireccion"
-            android:label="@string/title_activity_pedir_otra_direccion" />
-        <activity
-            android:name=".ConfirmarDireccion"
-            android:label="@string/title_activity_confirmar_direccion" />
-        <activity
-            android:name=".RefinaUbicacion"
-            android:label="@string/title_activity_refina_ubicacion" />
+        <activity android:name=".PedirOtraDireccion" android:noHistory="true" android:label="@string/title_activity_pedir_otra_direccion" />
+        <activity android:name=".ConfirmarDireccion" android:noHistory="true" android:label="@string/title_activity_confirmar_direccion" />
+        <activity android:name=".RefinaUbicacion" android:noHistory="true" android:label="@string/title_activity_refina_ubicacion" />
 
         <service android:name=".MyFirebaseInstanceIDService">
             <intent-filter>
@@ -175,7 +169,7 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".lista_pedidos_por_entregar" />
+        <activity android:name=".lista_pedidos_por_entregar" android:noHistory="true" />
         <activity
             android:name=".RastrearPedido"
             android:label="@string/title_activity_rastrear_pedido"></activity>

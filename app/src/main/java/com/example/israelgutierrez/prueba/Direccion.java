@@ -1,6 +1,7 @@
 package com.example.israelgutierrez.prueba;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,7 @@ public class Direccion extends AppCompatActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_direccion);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mOtraDireccion=(Button)findViewById(R.id.pedirOtraDireccion);
         mDireccionPareja=(Button)findViewById(R.id.direccionPareja);
         mDireccionCasa = (Button)findViewById(R.id.direccionCasa);

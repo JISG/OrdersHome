@@ -3,6 +3,7 @@ package com.example.israelgutierrez.prueba;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -72,6 +74,7 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
     RequestQueue requestQueue2;
     RequestQueue requestQueue3;
     RequestQueue requestQueue;
+    RequestQueue requestQueue4;
     Spinner prueba;
     String eleccion;
     //INSERT
@@ -87,6 +90,7 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hacer_pedido);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         sucursales = new ArrayList<>();
         tagDirecciones = new ArrayList<>();
         user = (TextView) findViewById(R.id.user);
@@ -114,6 +118,7 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
         requestQueue2= Volley.newRequestQueue(this);
         requestQueue3= Volley.newRequestQueue(this);
         requestQueue= Volley.newRequestQueue(this);
+        requestQueue4 = Volley.newRequestQueue(this);
 
         prueba = (Spinner) findViewById(R.id.sucursales);
 
@@ -123,11 +128,14 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
 
         Intent intent = getIntent();
          name = intent.getStringExtra("name");
+        System.out.println("name: "+name);
         String username = intent.getStringExtra("username");
         String password = intent.getStringExtra("password");
         String id = intent.getStringExtra("idUsuario");
         String tipoUser = intent.getStringExtra("tipo");
+        System.out.println("IdUsuario: "+id);
         idUsuario=id;
+        guardarToken(idUsuario);
         obtenerDirecciones(id);
 
 
@@ -158,8 +166,6 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.pedir:
                 hacePedido();
-
-
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(hacer_pedido.this);
                 builder.setMessage("Tu pedido está en camino, Gracias por usar OrdersHome!")
@@ -276,7 +282,7 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
 
                 try {
 
-                    //tagDirecciones.add("Selecciona");
+                    tagDirecciones.add("Selecciona");
                     JSONObject jsonResponse = new JSONObject(response);
                     JSONArray json = jsonResponse.optJSONArray("direcciones");
                     boolean success =  jsonResponse.getBoolean("succes");
@@ -354,6 +360,31 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
             }
         });
         requestQueue.add(request);
+
+    }
+
+    public void guardarToken(String idUsuario){
+        final String token = FirebaseInstanceId.getInstance().getToken();
+        System.out.println(idUsuario);
+        final String url = "https://sgvshop.000webhostapp.com/guardarToken.php?idUsuario="+idUsuario+"&token="+token;
+
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                System.out.println("Token guardado: "+token);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(hacer_pedido.this);
+                builder.setMessage("Fallo en Guardar Token!")
+                        .setNegativeButton("Aceptar",null)
+                        .create().show();
+
+            }
+        });
+        requestQueue4.add(request);
 
     }
 }

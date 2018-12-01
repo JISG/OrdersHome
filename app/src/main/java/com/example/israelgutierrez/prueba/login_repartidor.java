@@ -2,6 +2,7 @@ package com.example.israelgutierrez.prueba;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -36,7 +37,7 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_repartidor);
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         usuario = (TextView) findViewById(R.id.usuario);
         password = (TextView) findViewById(R.id.password);
         entrar = (Button) findViewById(R.id.entrar);
@@ -117,6 +118,7 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
                             JSONObject jsonObject = null;
                             jsonObject = json.getJSONObject(i);
                             lista.setIdPedido(jsonObject.getInt("idPedido"));
+                            lista.setIdUsuario(jsonObject.getInt("idUsuario"));
                             lista.setNombreCliente(jsonObject.getString("nombreCliente"));
                             lista.setDireccion(jsonObject.getString("direccion"));
                             lista.setKilos((float) jsonObject.getDouble("kilos"));

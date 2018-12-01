@@ -1,6 +1,7 @@
 package com.example.israelgutierrez.prueba;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,7 +25,7 @@ public class listadoPedidosEntregados extends AppCompatActivity implements View.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listado_pedidos_entregados);
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         recyclerViewPedidos = (RecyclerView) findViewById(R.id.pedidos);
         recyclerViewPedidos.setLayoutManager(new LinearLayoutManager(this));
 

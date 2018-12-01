@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -41,6 +42,7 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_pedidos_por_entregar);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         recyclerViewPedidos = (RecyclerView) findViewById(R.id.listaNotificaciones);
         recyclerViewPedidos.setLayoutManager(new LinearLayoutManager(this));
@@ -53,6 +55,7 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
         if(prueba.isEmpty()){
             txPedidos.setVisibility(View.VISIBLE);
         }
+
 
         Intent intent = getIntent();
         idRepartidor= intent.getStringExtra("idRepartidor");

@@ -1,6 +1,7 @@
 package com.example.israelgutierrez.prueba;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +16,7 @@ public class masSucursales extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mas_sucursales);
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         sucursal2 = (EditText) findViewById(R.id.sucursal2);
         sucursal3 = (EditText) findViewById(R.id.sucursal3);
         sucursal4 = (EditText) findViewById(R.id.sucursal4);

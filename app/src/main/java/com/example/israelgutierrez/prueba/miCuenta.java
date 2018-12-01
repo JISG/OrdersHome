@@ -1,6 +1,7 @@
 package com.example.israelgutierrez.prueba;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +15,7 @@ public class miCuenta extends AppCompatActivity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mi_cuenta);
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         ajustes = (TextView) findViewById(R.id.ajustes);
         notificaciones = (TextView) findViewById(R.id.notificaciones);
         direcciones = (TextView) findViewById(R.id.direcciones);

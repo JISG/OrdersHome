@@ -3,6 +3,7 @@ package com.example.israelgutierrez.prueba;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -43,6 +44,7 @@ public class formularioRepartidor extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario_repartidor);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         sucursales = new ArrayList<>();
         requestQueue2= Volley.newRequestQueue(this);
         usuario = (EditText) findViewById(R.id.usuario);
