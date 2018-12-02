@@ -7,13 +7,13 @@ import android.os.Parcelable;
 @SuppressLint("ParcelCreator")
 public class listaRegistros implements Parcelable {
     private String nombreCliente;
-    private int kilos;
+    private float kilos;
     private String direccion;
-    private int total=kilos;
+    private float total=kilos;
 
     protected listaRegistros(Parcel in) {
         nombreCliente = in.readString();
-        kilos = in.readInt();
+        kilos = in.readFloat();
         direccion = in.readString();
     }
 
@@ -24,7 +24,7 @@ public class listaRegistros implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(nombreCliente);
-        dest.writeInt(kilos);
+        dest.writeFloat(kilos);
         dest.writeString(direccion);
     }
 
@@ -53,11 +53,11 @@ public class listaRegistros implements Parcelable {
         this.nombreCliente = nombreCliente;
     }
 
-    public int getKilos() {
+    public float getKilos() {
         return kilos;
     }
 
-    public void setKilos(int kilos) {
+    public void setKilos(float kilos) {
         this.kilos = kilos;
     }
 

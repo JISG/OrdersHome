@@ -37,6 +37,7 @@ public class buscarRepartidor extends AppCompatActivity implements View.OnClickL
     ArrayList<String> sucursales;
     RequestQueue requestQueue2;
     String sucursal;
+    String idUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +54,10 @@ public class buscarRepartidor extends AppCompatActivity implements View.OnClickL
         agregarRepartidor.setOnClickListener(this);
         sucursalesSP = (Spinner) findViewById(R.id.sucursales);
         sucursalesSP.setOnItemSelectedListener(this);
+        Intent intent = getIntent();
 
-        obtenerSucursales();
+        idUsuario = intent.getStringExtra("idUsuario");
+        obtenerSucursales(idUsuario);
 
 
         requestQueue= Volley.newRequestQueue(this);
@@ -83,7 +86,7 @@ public class buscarRepartidor extends AppCompatActivity implements View.OnClickL
                                     JSONObject jsonObject = null;
                                     jsonObject = json.getJSONObject(i);
                                     lista.setNombreCliente(jsonObject.getString("nombreCliente"));
-                                    lista.setKilos(jsonObject.getInt("kilos"));
+                                    lista.setKilos((float) jsonObject.getDouble("kilos"));
                                     lista.setDireccion(jsonObject.getString("direccion"));
                                     registros.add(lista);
                                 }
@@ -137,9 +140,9 @@ public class buscarRepartidor extends AppCompatActivity implements View.OnClickL
 
     }
 
-    public void obtenerSucursales(){
+    public void obtenerSucursales(String idUsuario){
 
-        final String url = "https://sgvshop.000webhostapp.com/SelecSucursales.php";
+        final String url = "https://sgvshop.000webhostapp.com/SelecSucursales.php?idUsuario="+idUsuario;
 
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override

@@ -18,7 +18,7 @@ public class entrar_crear_repartidor extends AppCompatActivity implements View.O
 
         entrar = (Button) findViewById(R.id.iniciarSesion);
         crear = (Button) findViewById(R.id.crearCuenta);
-
+        crear.setVisibility(View.INVISIBLE);
         entrar.setOnClickListener(this);
         crear.setOnClickListener(this);
 

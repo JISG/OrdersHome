@@ -25,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 
@@ -35,6 +36,7 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
     TextView txPedidos;
     Button cerrarSesion;
     RequestQueue requestQueue;
+    RequestQueue requestQueue2;
     double latitude;
     double longitude;
     String idRepartidor;
@@ -53,6 +55,7 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
         cerrarSesion.setOnClickListener(this);
         txPedidos.setVisibility(View.INVISIBLE);
         requestQueue= Volley.newRequestQueue(this);
+        requestQueue2= Volley.newRequestQueue(this);
         listaPedidos = new ArrayList<>();
         Intent intent = getIntent();
         listaPedidos = (ArrayList<pedidos>) intent.getSerializableExtra("lista");
@@ -68,7 +71,8 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
 
         idRepartidor= intent.getStringExtra("idRepartidor");
         adaptadorPedidos = new RecyclerViewAdaptador2(listaPedidos,idRepartidor);
-
+        String idUsuario = intent.getStringExtra("idUsuario");
+        guardarToken(idUsuario);
         adaptadorPedidos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -176,6 +180,31 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
 
 
         }
+
+    }
+
+    public void guardarToken(String idUsuario){
+        final String token = FirebaseInstanceId.getInstance().getToken();
+        System.out.println(idUsuario);
+        final String url = "https://sgvshop.000webhostapp.com/guardarToken.php?idUsuario="+idUsuario+"&token="+token;
+
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                System.out.println("Token guardado: "+token);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(lista_pedidos_por_entregar.this);
+                builder.setMessage("Fallo en Guardar Token!")
+                        .setNegativeButton("Aceptar",null)
+                        .create().show();
+
+            }
+        });
+        requestQueue2.add(request);
 
     }
 }

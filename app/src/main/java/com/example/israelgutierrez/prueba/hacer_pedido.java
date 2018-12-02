@@ -166,7 +166,7 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.pedir:
                 hacePedido();
-
+                //enviarNotificacion(sucursalSeleccionada);
                 AlertDialog.Builder builder = new AlertDialog.Builder(hacer_pedido.this);
                 builder.setMessage("Tu pedido está en camino, Gracias por usar OrdersHome!")
                         .setNegativeButton("Aceptar",null)
@@ -176,6 +176,28 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
             break;
         }
 
+    }
+
+    private void enviarNotificacion(String sucursal) {
+            final String url = "https://sgvshop.000webhostapp.com/sendNotifications.php?sucursal="+sucursal;
+
+            StringRequest request2 = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                  /*  AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage("Fallo en registro, contacte con el administrador!")
+                            .setNegativeButton("Aceptar",null)
+                            .create().show();
+                    System.out.println("No se hizo el pedido");*/
+
+                }
+            });
+            requestQueue2.add(request2);
     }
 
     private void obtenerHora(){

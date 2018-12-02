@@ -42,9 +42,9 @@ public class listadoPedidosEntregados extends AppCompatActivity implements View.
         //Adaptador Recycler
         adaptadorPedidos = new RecyclerViewAdaptador(prueba);
         recyclerViewPedidos.setAdapter(adaptadorPedidos);
-        int cantidad=0;
+        float cantidad=0;
         for(int i=0;i<prueba.size();i++){
-            int kg =prueba.get(i).getKilos();
+            float kg =prueba.get(i).getKilos();
             cantidad =cantidad+kg;
         }
         total.setText(""+cantidad);

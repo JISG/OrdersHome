@@ -58,6 +58,9 @@ public class formulario_empresa extends AppCompatActivity implements View.OnClic
         String sucursal3 = intent.getStringExtra("sucursal3");
         String sucursal4 = intent.getStringExtra("sucursal4");
 
+        s2= sucursal2;
+        s3= sucursal3;
+        s4=sucursal4;
 
 
 
@@ -70,11 +73,13 @@ public class formulario_empresa extends AppCompatActivity implements View.OnClic
     }
 
     public void agregarAdmi(){
-        if(s2.equals("") && s3.equals("") && s4.equals("")){
              url = "https://sgvshop.000webhostapp.com/guardarAdministrador.php?usuario="+usuario.getText().toString()+"&contrasena="+password.getText().toString()+
-                    "&nombre="+nombreAdmi.getText().toString()+"&apellidoP="+apellidoP.getText().toString()+"&apellidoM="+apellidoM.getText().toString()+"&sucursal="+sucursal.getText().toString();
+                    "&nombre="+nombreAdmi.getText().toString()+"&apellidoP="+apellidoP.getText().toString()+"&apellidoM="+apellidoM.getText().toString()+"&sucursal="+sucursal.getText().toString()+"&sucursal2="+s2+"&sucursal3="+s3+"&sucursal4="+s4;
 
-        }
+
+
+
+
 
         /*if(s2.isEmpty() && s3.isEmpty() && s4.isEmpty()){
             url = "https://sgvshop.000webhostapp.com/guardarAdministrador.php?usuario="+usuario.getText().toString()+"&contrasena="+password.getText().toString()+

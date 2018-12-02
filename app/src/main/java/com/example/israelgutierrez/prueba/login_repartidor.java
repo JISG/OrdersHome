@@ -56,51 +56,62 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.entrar:
-               final String username= usuario.getText().toString();
-               final String contrasena= password.getText().toString();
-                Response.Listener<String> responseListener = new Response.Listener<String>(){
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
-                            if(success) {
-                                id = jsonResponse.getString("idUsuario");
-                                buscarIdRepartidor();
-                                buscarPedidos();
-                                String name = jsonResponse.getString("usuario");
-                                String tipoUser = jsonResponse.getString("tipo");
-                                Intent intent = new Intent(login_repartidor.this,lista_pedidos_por_entregar.class);
-                                intent.putExtra("idUsuario",id);
-                                intent.putExtra("name", name);
-                                intent.putExtra("username",username);
-                                intent.putExtra("tipo",tipoUser);
-                                intent.putExtra("password",contrasena);
-                                intent.putExtra("idRepartidor",idRepartidor);
-                                intent.putParcelableArrayListExtra("lista", registros);
-                                if(registros.isEmpty()){
-                                    registros = null;
-                                    registros = new ArrayList<pedidos>();
+                final String username= usuario.getText().toString();
+                final String contrasena= password.getText().toString();
+                if(username.isEmpty()) {
+                    if (contrasena.isEmpty()){
+                        Response.Listener<String> responseListener = new Response.Listener<String>(){
+                            @Override
+                            public void onResponse(String response) {
 
-                                    buscarPedidos();
-                                }else
-                                startActivity(intent);
+                                try {
+                                    JSONObject jsonResponse = new JSONObject(response);
+                                    boolean success = jsonResponse.getBoolean("success");
+                                    if(success) {
+                                        id = jsonResponse.getString("idUsuario");
+                                        buscarIdRepartidor();
+                                        buscarPedidos();
+                                        String name = jsonResponse.getString("usuario");
+                                        String tipoUser = jsonResponse.getString("tipo");
+                                        Intent intent = new Intent(login_repartidor.this,lista_pedidos_por_entregar.class);
+                                        intent.putExtra("idUsuario",id);
+                                        intent.putExtra("name", name);
+                                        intent.putExtra("username",username);
+                                        intent.putExtra("tipo",tipoUser);
+                                        intent.putExtra("password",contrasena);
+                                        intent.putExtra("idRepartidor",idRepartidor);
+                                        intent.putParcelableArrayListExtra("lista", registros);
+                                        if(registros.isEmpty()){
+                                            registros = null;
+                                            registros = new ArrayList<pedidos>();
 
-                            }else{
-                                AlertDialog.Builder builder = new AlertDialog.Builder(login_repartidor.this);
-                                builder.setMessage("Nombre de usuario o contraseña invalidos. Revise sus datos.")
-                                        .setNegativeButton("Aceptar",null)
-                                        .create().show();
+                                            buscarPedidos();
+                                        }else
+                                            startActivity(intent);
+
+                                    }else{
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(login_repartidor.this);
+                                        builder.setMessage("Nombre de usuario o contraseña invalidos. Revise sus datos.")
+                                                .setNegativeButton("Aceptar",null)
+                                                .create().show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
+                        };
+                        LoginRequestRepartidor loginRequest = new LoginRequestRepartidor(username,contrasena,responseListener);
+                        RequestQueue queue = Volley.newRequestQueue(login_repartidor.this);
+                        queue.add(loginRequest);
                     }
-                };
-                LoginRequestRepartidor loginRequest = new LoginRequestRepartidor(username,contrasena,responseListener);
-                RequestQueue queue = Volley.newRequestQueue(login_repartidor.this);
-                queue.add(loginRequest);
+                    else{
+                        Toast.makeText(login_repartidor.this,"Ingrese una contraseña.",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{
+                    Toast.makeText(login_repartidor.this,"Ingrese un nombre de usuario.",Toast.LENGTH_SHORT).show();
+                }
 
             break;
         }
