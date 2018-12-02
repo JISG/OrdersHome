@@ -21,9 +21,8 @@ public class RefinaUbicacion extends FragmentActivity implements OnMapReadyCallb
     private GoogleMap mMap;
     Button bAceptar;
 
-    String direccion,name;
+    String direccion,name,idUsuario;
     double latitud, longitud;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +34,7 @@ public class RefinaUbicacion extends FragmentActivity implements OnMapReadyCallb
         mapFragment.getMapAsync(this);
 
         Intent intent = getIntent();
+        idUsuario = intent.getStringExtra("idUsuario");
         name=intent.getStringExtra("name");
         latitud =intent.getDoubleExtra("latitud",0);
         longitud = intent.getDoubleExtra("longitud",0);
@@ -57,12 +57,11 @@ public class RefinaUbicacion extends FragmentActivity implements OnMapReadyCallb
         mMap = googleMap;
         bAceptar = (Button) findViewById(R.id.aceptarRefinaUbicacion);
         MarkerOptions mo = new MarkerOptions();
-
         LatLng puntoObtenidoDireccion = new LatLng(latitud,longitud);
         mo.position(puntoObtenidoDireccion);
         mMap.addMarker(mo);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(puntoObtenidoDireccion));
-        mMap.moveCamera(CameraUpdateFactory.zoomTo(16));
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(20));
 
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -75,9 +74,12 @@ public class RefinaUbicacion extends FragmentActivity implements OnMapReadyCallb
                 markerOptions.title("Su posición actual");
                 mMap.clear();
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                //mMap.animateCamera(CameraUpdateFactory.zoomTo(20));
                 mMap.addMarker(markerOptions);
             }
         });
+
+
         bAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,6 +89,7 @@ public class RefinaUbicacion extends FragmentActivity implements OnMapReadyCallb
                 intent.putExtra("latitud",nuevaDir.latitude);
                 intent.putExtra("longitud",nuevaDir.longitude);
                 intent.putExtra("direccion",direccion);
+                intent.putExtra("idUsuario",idUsuario);
                 startActivity(intent);
             }
         });

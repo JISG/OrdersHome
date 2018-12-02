@@ -58,8 +58,8 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
             case R.id.entrar:
                 final String username= usuario.getText().toString();
                 final String contrasena= password.getText().toString();
-                if(username.isEmpty()) {
-                    if (contrasena.isEmpty()){
+                if(username.length()!=0){
+                    if(contrasena.length()!=0){
                         Response.Listener<String> responseListener = new Response.Listener<String>(){
                             @Override
                             public void onResponse(String response) {
@@ -84,8 +84,8 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
                                         if(registros.isEmpty()){
                                             registros = null;
                                             registros = new ArrayList<pedidos>();
-
                                             buscarPedidos();
+                                            System.out.println("Registros: "+registros);
                                         }else
                                             startActivity(intent);
 
@@ -109,9 +109,10 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
                         Toast.makeText(login_repartidor.this,"Ingrese una contraseña.",Toast.LENGTH_SHORT).show();
                     }
                 }
-                else{
+                else {
                     Toast.makeText(login_repartidor.this,"Ingrese un nombre de usuario.",Toast.LENGTH_SHORT).show();
                 }
+
 
             break;
         }
@@ -146,6 +147,7 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
                             lista.setTipoTortilla(jsonObject.getString("tipoTortilla"));
                             registros.add(lista);
                         }
+                        System.out.println("Registros: "+registros.toString());
                     }
 
                 } catch (JSONException e) {

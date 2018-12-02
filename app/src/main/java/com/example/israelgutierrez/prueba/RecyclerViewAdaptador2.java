@@ -98,6 +98,7 @@ public class RecyclerViewAdaptador2 extends RecyclerView.Adapter<RecyclerViewAda
             switch (view.getId()){
                 case R.id.notificar:
                     idUsuario = pedidosLista.get(getAdapterPosition()).getIdUsuario();
+
                     tomaDePedido();
                     enviarNotificacion();
                 break;

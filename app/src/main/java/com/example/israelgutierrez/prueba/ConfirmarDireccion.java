@@ -79,7 +79,7 @@ public class ConfirmarDireccion extends FragmentActivity implements OnMapReadyCa
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        direcIngresada.setText(direccion);
+        direcIngresada.setText("Su dirección: " + direccion);
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(latitud, longitud);
         mMap.addMarker(new MarkerOptions().position(sydney).title(direccion));
