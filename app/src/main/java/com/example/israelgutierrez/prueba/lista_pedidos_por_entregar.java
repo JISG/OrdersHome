@@ -44,6 +44,7 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
         setContentView(R.layout.activity_lista_pedidos_por_entregar);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+
         recyclerViewPedidos = (RecyclerView) findViewById(R.id.listaNotificaciones);
         recyclerViewPedidos.setLayoutManager(new LinearLayoutManager(this));
         txPedidos = (TextView) findViewById(R.id.txtPedidos);
@@ -51,7 +52,7 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
         cerrarSesion.setOnClickListener(this);
         txPedidos.setVisibility(View.INVISIBLE);
         requestQueue= Volley.newRequestQueue(this);
-        ArrayList<pedidos> prueba = (ArrayList<pedidos>) getIntent().getSerializableExtra("lista");
+        final ArrayList<pedidos> prueba = (ArrayList<pedidos>) getIntent().getSerializableExtra("lista");
         if(prueba.isEmpty()){
             txPedidos.setVisibility(View.VISIBLE);
         }
@@ -59,6 +60,16 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
         Intent intent = getIntent();
         idRepartidor= intent.getStringExtra("idRepartidor");
         adaptadorPedidos = new RecyclerViewAdaptador2(prueba,idRepartidor);
+
+        adaptadorPedidos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                    Toast.makeText(getApplicationContext(),"Seleccion: "+prueba.get(recyclerViewPedidos.getChildAdapterPosition(view)).getIdUsuario(),Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
         recyclerViewPedidos.setAdapter(adaptadorPedidos);
 
 
@@ -73,11 +84,11 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
             public void onLocationChanged(Location location) {
                 // Called when a new location is found by the network location provider.
                 //tvUbicacion.setText("" + location.getLatitude() + " " + location.getLongitude());
-                System.out.println("OnLocation");
+                //System.out.println("OnLocation");
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
-                System.out.println("latitud: "+latitude);
-                System.out.println("Longitud: "+longitude);
+                //System.out.println("latitud: "+latitude);
+                //System.out.println("Longitud: "+longitude);
 
             }
 
@@ -112,7 +123,7 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
     public void hilo() {
         try {
             Thread.sleep(1000);
-            System.out.println("Hiloooo");
+            //System.out.println("Hiloooo");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -144,13 +155,13 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
             System.out.println("latitud: "+latitude);
             System.out.println("longitud: "+longitude);
             Toast.makeText(lista_pedidos_por_entregar.this, "Cada 10 segundos: "+ lt + " "+ lg, Toast.LENGTH_SHORT).show();
-            System.out.println("OnPost");
+           // System.out.println("OnPost");
             final String url = "https://sgvshop.000webhostapp.com/insertCoordenadas.php?idRepartidor="+idRepartidor+"&latitud="+lt+"&longitud="+lg;
 
             StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    System.out.println("Hecho!");
+                    //System.out.println("Hecho!");
                 }
             }, new Response.ErrorListener() {
                 @Override

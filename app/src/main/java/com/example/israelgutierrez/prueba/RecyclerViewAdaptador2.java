@@ -32,13 +32,15 @@ import java.util.ArrayList;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
-public class RecyclerViewAdaptador2 extends RecyclerView.Adapter<RecyclerViewAdaptador2.ViewHolder> {
-    RequestQueue requestQueue;
-    int idPedido;
-    int posicion;
+public class RecyclerViewAdaptador2 extends RecyclerView.Adapter<RecyclerViewAdaptador2.ViewHolder> implements View.OnClickListener {
+    static RequestQueue requestQueue;
+    static RequestQueue requestQueue2;
+     int idPedido;
+     int posicion;
     public ArrayList<pedidos> pedidosLista;
-    public String idRepartidor;
-    int idUsuario;
+    public  String idRepartidor;
+     int idUsuario;
+    private View.OnClickListener listener;
 
     public RecyclerViewAdaptador2() {
 
@@ -48,6 +50,13 @@ public class RecyclerViewAdaptador2 extends RecyclerView.Adapter<RecyclerViewAda
     public RecyclerViewAdaptador2(ArrayList<pedidos> pedidosLista, String idRepartidor) {
         this.pedidosLista = pedidosLista;
         this.idRepartidor = idRepartidor;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(listener !=null){
+            listener.onClick(view);
+        }
     }
 
 
@@ -73,6 +82,7 @@ public class RecyclerViewAdaptador2 extends RecyclerView.Adapter<RecyclerViewAda
             //visualizarDireccion = (Button) itemView.findViewById(R.id.visualizarDireccion);
             tortilla = (TextView) itemView.findViewById(R.id.tortilla);
             requestQueue= Volley.newRequestQueue(cont);
+            requestQueue2= Volley.newRequestQueue(cont);
 
         }
 
@@ -84,31 +94,39 @@ public class RecyclerViewAdaptador2 extends RecyclerView.Adapter<RecyclerViewAda
         public void onClick(View view) {
             Intent intent;
             switch (view.getId()){
-
                 case R.id.notificar:
+                    idUsuario = pedidosLista.get(getAdapterPosition()).getIdUsuario();
                     tomaDePedido();
-                    /*NotificationCompat.Builder mBuilder;
-                    NotificationManager mNotifyMgr =(NotificationManager) cont.getSystemService(NOTIFICATION_SERVICE);
-                    int icono = R.mipmap.ic_launcher;
-                    intent = new Intent(cont, lista_pedidos_por_entregar.class);
-                    PendingIntent pendingIntent = PendingIntent.getActivity(cont, 0,intent, 0);
-                    mBuilder = new NotificationCompat.Builder(cont);
-                    mBuilder.setContentIntent (pendingIntent);
-                    mBuilder.setSmallIcon(icono);
-                    mBuilder.setContentTitle("OrdersHome pedido enviado");
-                    mBuilder.setContentText("Su pedido de tortillas ha zarpado, ¡En hora buena!");
-                    mBuilder.setVibrate(new long[] {100, 250, 100, 500});
-                    mBuilder.setAutoCancel(true);
-                    mNotifyMgr.notify(1, mBuilder.build());*/
-                    idUsuario = pedidosLista.get(posicion).getIdUsuario();
-                    System.out.println("idUsuariooooooooooooooo: "+idUsuario);
-                    break;
+                    System.out.println("idUsuario: "+idUsuario);
+                    enviarNotificacion();
+                break;
             }
         }
 
         private void enviarNotificacion() {
+            final String url = "https://sgvshop.000webhostapp.com/sendNotifications.php?idUsuario="+idUsuario;
 
+            StringRequest request2 = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+
+                    System.out.println("Notificacion enviada");
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(cont);
+                    builder.setMessage("Fallo en registro, contacte con el administrador!")
+                            .setNegativeButton("Aceptar",null)
+                            .create().show();
+                    System.out.println("No se hizo el pedido");
+
+                }
+            });
+            requestQueue2.add(request2);
         }
+
+
 
         private void tomaDePedido() {
             final String url = "https://sgvshop.000webhostapp.com/tomarPedido.php?idRepartidor="+idRepartidor+"&idPedido="+idPedido;
@@ -142,23 +160,24 @@ public class RecyclerViewAdaptador2 extends RecyclerView.Adapter<RecyclerViewAda
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_pedidos,parent,false);
         RecyclerViewAdaptador2.ViewHolder viewHolder = new ViewHolder(view);
+        view.setOnClickListener(this);
         return viewHolder;
+    }
+
+    public void setOnClickListener(View.OnClickListener listener){
+        this.listener=listener;
     }
 
     @Override
     public void onBindViewHolder(RecyclerViewAdaptador2.ViewHolder holder, int position) {
         posicion=position;
         idPedido = pedidosLista.get(position).getIdPedido();
-        System.out.println("posicion: "+position);
         holder.nombre.setText(pedidosLista.get(position).getNombreCliente().toString());
         holder.direccion.setText(pedidosLista.get(position).getDireccion().toString());
         holder.horaEntrega.setText(pedidosLista.get(position).getHoraEntrega().toString());
         holder.kilos.setText(""+pedidosLista.get(position).getKilos());
         holder.tortilla.setText(pedidosLista.get(position).getTipoTortilla().toString());
         holder.setClicksListener();
-
-        //holder.visualizarDireccion.setOnClickListener(this);
-        //holder.notificar.setOnClickListener(this);
 
     }
 

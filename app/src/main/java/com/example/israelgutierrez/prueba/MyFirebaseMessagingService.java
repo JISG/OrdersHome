@@ -25,6 +25,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            notificar(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getTitle());
         }
 
         if(remoteMessage.getData().size()>0){
@@ -41,7 +42,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder notif = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setSmallIcon(R.drawable.direccion)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setAutoCancel(true)

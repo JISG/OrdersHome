@@ -282,7 +282,7 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
 
                 try {
 
-                    tagDirecciones.add("Selecciona");
+                    //tagDirecciones.add("Selecciona");
                     JSONObject jsonResponse = new JSONObject(response);
                     JSONArray json = jsonResponse.optJSONArray("direcciones");
                     boolean success =  jsonResponse.getBoolean("succes");
