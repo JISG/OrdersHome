@@ -38,6 +38,7 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
     double latitude;
     double longitude;
     String idRepartidor;
+    ArrayList<pedidos> listaPedidos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,20 +53,27 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
         cerrarSesion.setOnClickListener(this);
         txPedidos.setVisibility(View.INVISIBLE);
         requestQueue= Volley.newRequestQueue(this);
-        final ArrayList<pedidos> prueba = (ArrayList<pedidos>) getIntent().getSerializableExtra("lista");
-        if(prueba.isEmpty()){
+        listaPedidos = new ArrayList<>();
+        Intent intent = getIntent();
+        listaPedidos = (ArrayList<pedidos>) intent.getSerializableExtra("lista");
+        if(listaPedidos.isEmpty()){
             txPedidos.setVisibility(View.VISIBLE);
         }
 
-        Intent intent = getIntent();
+        if(listaPedidos.isEmpty()){
+            listaPedidos =null;
+            listaPedidos = new ArrayList<>();
+        }
+
+
         idRepartidor= intent.getStringExtra("idRepartidor");
-        adaptadorPedidos = new RecyclerViewAdaptador2(prueba,idRepartidor);
+        adaptadorPedidos = new RecyclerViewAdaptador2(listaPedidos,idRepartidor);
 
         adaptadorPedidos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                    Toast.makeText(getApplicationContext(),"Seleccion: "+prueba.get(recyclerViewPedidos.getChildAdapterPosition(view)).getIdUsuario(),Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(getApplicationContext(),"Seleccion: "+listaPedidos.get(recyclerViewPedidos.getChildAdapterPosition(view)).getIdUsuario(),Toast.LENGTH_SHORT).show();
 
 
             }
@@ -82,14 +90,9 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
         // Define a listener that responds to location updates
         LocationListener locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
-                // Called when a new location is found by the network location provider.
-                //tvUbicacion.setText("" + location.getLatitude() + " " + location.getLongitude());
-                //System.out.println("OnLocation");
+
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
-                //System.out.println("latitud: "+latitude);
-                //System.out.println("Longitud: "+longitude);
-
             }
 
             public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -149,19 +152,15 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
+            //Hilo ejecutandose en segundo plano y registrando las coordenadas del repartidor;
             ejecutar();
             String lt = String.valueOf(latitude);
             String lg = String.valueOf(longitude);
-            System.out.println("latitud: "+latitude);
-            System.out.println("longitud: "+longitude);
-            Toast.makeText(lista_pedidos_por_entregar.this, "Cada 10 segundos: "+ lt + " "+ lg, Toast.LENGTH_SHORT).show();
-           // System.out.println("OnPost");
             final String url = "https://sgvshop.000webhostapp.com/insertCoordenadas.php?idRepartidor="+idRepartidor+"&latitud="+lt+"&longitud="+lg;
 
             StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    //System.out.println("Hecho!");
                 }
             }, new Response.ErrorListener() {
                 @Override

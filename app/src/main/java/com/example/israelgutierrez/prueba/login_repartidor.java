@@ -32,6 +32,9 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
     RequestQueue requestQueue2;
     String idRepartidor;
 
+
+
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,8 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
         entrar.setOnClickListener(this);
         requestQueue= Volley.newRequestQueue(this);
         requestQueue2= Volley.newRequestQueue(this);
-        registros = new ArrayList();
+        registros = new ArrayList<>();
+
 
     }
 
@@ -52,9 +56,8 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.entrar:
-                final String username= usuario.getText().toString();
-                final String contrasena= password.getText().toString();
-
+               final String username= usuario.getText().toString();
+               final String contrasena= password.getText().toString();
                 Response.Listener<String> responseListener = new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response) {
@@ -62,23 +65,26 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
                             JSONObject jsonResponse = new JSONObject(response);
                             boolean success = jsonResponse.getBoolean("success");
                             if(success) {
-                                 id = jsonResponse.getString("idUsuario");
-                                System.out.println("id: "+id);
-                                buscarPedidos();
+                                id = jsonResponse.getString("idUsuario");
                                 buscarIdRepartidor();
+                                buscarPedidos();
                                 String name = jsonResponse.getString("usuario");
                                 String tipoUser = jsonResponse.getString("tipo");
-
                                 Intent intent = new Intent(login_repartidor.this,lista_pedidos_por_entregar.class);
-                                intent.putParcelableArrayListExtra("lista", registros);
                                 intent.putExtra("idUsuario",id);
                                 intent.putExtra("name", name);
                                 intent.putExtra("username",username);
                                 intent.putExtra("tipo",tipoUser);
                                 intent.putExtra("password",contrasena);
                                 intent.putExtra("idRepartidor",idRepartidor);
-                                startActivity(intent);
+                                intent.putParcelableArrayListExtra("lista", registros);
+                                if(registros.isEmpty()){
+                                    registros = null;
+                                    registros = new ArrayList<pedidos>();
 
+                                    buscarPedidos();
+                                }else
+                                startActivity(intent);
 
                             }else{
                                 AlertDialog.Builder builder = new AlertDialog.Builder(login_repartidor.this);
@@ -96,13 +102,12 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
                 RequestQueue queue = Volley.newRequestQueue(login_repartidor.this);
                 queue.add(loginRequest);
 
-
+            break;
         }
 
     }
 
     public void buscarPedidos() {
-
         final String url = "https://sgvshop.000webhostapp.com/listarPedidos.php?idUsuario="+id;
         System.out.println("Buscando pedidos del id: "+id);
 
@@ -114,6 +119,8 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
                     JSONObject jsonResponse = new JSONObject(response);
                     boolean success = jsonResponse.getBoolean("succes");
                     if (success) {
+                        registros = null;
+                        registros = new ArrayList<>();
                         JSONArray json = jsonResponse.optJSONArray("pedidos");
                         for (int i = 0; i < json.length(); i++) {
                             lista = new pedidos();
@@ -151,8 +158,7 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
 
     public void buscarIdRepartidor(){
         final String url = "https://sgvshop.000webhostapp.com/buscarIdRepartidor.php?idUsuario="+id;
-        System.out.println("Buscando repartidor...");
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        StringRequest request2 = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -161,7 +167,6 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
                     boolean success = jsonResponse.getBoolean("succes");
                     if (success) {
                         idRepartidor = jsonResponse.getString("idRepartidor");
-
                     }
 
                 } catch (JSONException e) {
@@ -179,7 +184,7 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
                         .create().show();
             }
         });
-        requestQueue2.add(request);
+        requestQueue2.add(request2);
 
     }
 }

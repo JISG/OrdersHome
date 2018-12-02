@@ -37,7 +37,7 @@ public class RecyclerViewAdaptador2 extends RecyclerView.Adapter<RecyclerViewAda
     static RequestQueue requestQueue2;
      int idPedido;
      int posicion;
-    public ArrayList<pedidos> pedidosLista;
+    public ArrayList<pedidos> pedidosLista = new ArrayList<>();
     public  String idRepartidor;
      int idUsuario;
     private View.OnClickListener listener;
@@ -48,7 +48,9 @@ public class RecyclerViewAdaptador2 extends RecyclerView.Adapter<RecyclerViewAda
 
 
     public RecyclerViewAdaptador2(ArrayList<pedidos> pedidosLista, String idRepartidor) {
+
         this.pedidosLista = pedidosLista;
+        System.out.println("Pedidos que llegan: "+pedidosLista);
         this.idRepartidor = idRepartidor;
     }
 
@@ -97,7 +99,6 @@ public class RecyclerViewAdaptador2 extends RecyclerView.Adapter<RecyclerViewAda
                 case R.id.notificar:
                     idUsuario = pedidosLista.get(getAdapterPosition()).getIdUsuario();
                     tomaDePedido();
-                    System.out.println("idUsuario: "+idUsuario);
                     enviarNotificacion();
                 break;
             }
@@ -110,7 +111,6 @@ public class RecyclerViewAdaptador2 extends RecyclerView.Adapter<RecyclerViewAda
                 @Override
                 public void onResponse(String response) {
 
-                    System.out.println("Notificacion enviada");
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -135,9 +135,6 @@ public class RecyclerViewAdaptador2 extends RecyclerView.Adapter<RecyclerViewAda
                 @Override
                 public void onResponse(String response) {
 
-                    System.out.println("Toma de pedido lograda");
-                    System.out.println("El idPedido es: "+idPedido);
-                    System.out.println("El idRepartidor es: "+idRepartidor);
                 }
             }, new Response.ErrorListener() {
                 @Override
