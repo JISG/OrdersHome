@@ -30,3 +30,4 @@ public class coordenadas {
         this.longitud = longitud;
     }
 }
+//
