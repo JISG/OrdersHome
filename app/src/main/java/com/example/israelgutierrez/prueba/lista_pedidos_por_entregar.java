@@ -201,6 +201,7 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
                 distance = crntLocation.distanceTo(newLocation);
                 if(distance<2){
                     enviarNotificacion(idNotificacion);
+                    fsdf
                 }
 
             }*/

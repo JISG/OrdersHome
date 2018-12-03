@@ -81,12 +81,11 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
                                         intent.putExtra("password",contrasena);
                                         intent.putExtra("idRepartidor",idRepartidor);
                                         intent.putParcelableArrayListExtra("lista", registros);
-                                        if(registros.isEmpty()){
+
                                             registros = null;
                                             registros = new ArrayList<pedidos>();
                                             buscarPedidos();
                                             System.out.println("Registros: "+registros);
-                                        }else
                                             startActivity(intent);
 
                                     }else{
