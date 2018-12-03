@@ -27,6 +27,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class lista_pedidos_por_entregar extends AppCompatActivity implements View.OnClickListener {
@@ -37,10 +41,13 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
     Button cerrarSesion;
     RequestQueue requestQueue;
     RequestQueue requestQueue2;
+    RequestQueue requestQueue3;
     double latitude;
     double longitude;
     String idRepartidor;
     ArrayList<pedidos> listaPedidos;
+    ArrayList<coordenadas> coordenadas;
+    String idNotificacion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +63,7 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
         txPedidos.setVisibility(View.INVISIBLE);
         requestQueue= Volley.newRequestQueue(this);
         requestQueue2= Volley.newRequestQueue(this);
+        requestQueue3= Volley.newRequestQueue(this);
         listaPedidos = new ArrayList<>();
         Intent intent = getIntent();
         listaPedidos = (ArrayList<pedidos>) intent.getSerializableExtra("lista");
@@ -73,12 +81,11 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
         adaptadorPedidos = new RecyclerViewAdaptador2(listaPedidos,idRepartidor);
         String idUsuario = intent.getStringExtra("idUsuario");
         guardarToken(idUsuario);
+        selecCoordenadas();
         adaptadorPedidos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //  Toast.makeText(getApplicationContext(),"Seleccion: "+listaPedidos.get(recyclerViewPedidos.getChildAdapterPosition(view)).getIdUsuario(),Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(getApplicationContext(),"Seleccion: "+listaPedidos.get(recyclerViewPedidos.getChildAdapterPosition(view)).getIdUsuario(),Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -178,8 +185,52 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
             });
             requestQueue.add(request);
 
+            /*for(int i=0;i<coordenadas.size();i++) {
+
+                idNotificacion= coordenadas.get(i).getIdUsuario();
+                float distance=0;
+                Location crntLocation=new Location("crntlocation");
+                crntLocation.setLatitude(latitude);
+                crntLocation.setLongitude(longitude);
+
+                Location newLocation=new Location("newlocation");
+                newLocation.setLatitude(Double.parseDouble(coordenadas.get(i).getLatitud()));
+                newLocation.setLongitude(Double.parseDouble(coordenadas.get(i).getLongitud()));
+
+
+                distance = crntLocation.distanceTo(newLocation);
+                if(distance<2){
+                    enviarNotificacion(idNotificacion);
+                }
+
+            }*/
+
 
         }
+
+        private void enviarNotificacion(String id) {
+            final String url = "https://sgvshop.000webhostapp.com/sendNotifications.php?idUsuario="+id;
+
+            StringRequest request2 = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(lista_pedidos_por_entregar.this);
+                    builder.setMessage("Fallo en registro, contacte con el administrador!")
+                            .setNegativeButton("Aceptar",null)
+                            .create().show();
+                    System.out.println("No se hizo el pedido");
+
+                }
+            });
+            requestQueue2.add(request2);
+        }
+
+
 
     }
 
@@ -207,4 +258,48 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
         requestQueue2.add(request);
 
     }
+
+    public void selecCoordenadas(){
+        final String url = "https://sgvshop.000webhostapp.com/selecCoordenadasCliente.php?idRepartidor="+idRepartidor;
+        StringRequest request3 = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                coordenadas lista = null;
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    boolean success = jsonResponse.getBoolean("succes");
+                    if (success) {
+                        coordenadas = null;
+                        coordenadas = new ArrayList<>();
+                        JSONArray json = jsonResponse.optJSONArray("coordenadas");
+                        for (int i = 0; i < json.length(); i++) {
+                            lista = new coordenadas();
+                            JSONObject jsonObject = null;
+                            jsonObject = json.getJSONObject(i);
+                            lista.setLatitud(jsonObject.getString("latitudCliente"));
+                            lista.setLongitud(jsonObject.getString("longitudCliente"));
+                            coordenadas.add(lista);
+                        }
+                        System.out.println("Coordenadas: "+coordenadas.toString());
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                //Toast.makeText(buscarRepartidor.this,"Registro Exitoso, Inicie Sesión.",Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(lista_pedidos_por_entregar.this);
+                builder.setMessage("Repartidor no encontrado intente otra vez!")
+                        .setNegativeButton("Aceptar", null)
+                        .create().show();
+
+            }
+        });
+        requestQueue3.add(request3);
+    }
+
 }

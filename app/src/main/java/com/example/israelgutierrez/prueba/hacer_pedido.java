@@ -239,6 +239,7 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
             longitud = nuevaListaDirecciones.get(position).getLongitud();
             direccionPedido = nuevaListaDirecciones.get(position).getDireccion();
 
+
         }
 
 
@@ -364,7 +365,7 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
 
         etHora.setText(etHora.getText().toString().replace(" ","%20"));
         final String url = "https://sgvshop.000webhostapp.com/insertPedido.php?idUsuario="+idUsuario+"&nombreCliente="+name+"&direccion="+direccionPedido+
-                "&kilos="+kilos+"&horaEntrega="+etHora.getText().toString()+"&fecha="+fecha+"&nombreSucursal="+sucursalSeleccionada+"&tipoTortilla="+tipoTortilla;
+                "&kilos="+kilos+"&horaEntrega="+etHora.getText().toString()+"&fecha="+fecha+"&nombreSucursal="+sucursalSeleccionada+"&tipoTortilla="+tipoTortilla+"&latitudCliente="+latitud+"&longitudCliente="+longitud;
 
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override

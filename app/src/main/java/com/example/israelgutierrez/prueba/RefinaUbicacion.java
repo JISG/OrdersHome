@@ -76,6 +76,7 @@ public class RefinaUbicacion extends FragmentActivity implements OnMapReadyCallb
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                 //mMap.animateCamera(CameraUpdateFactory.zoomTo(20));
                 mMap.addMarker(markerOptions);
+
             }
         });
 
