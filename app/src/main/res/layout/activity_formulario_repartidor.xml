@@ -12,23 +12,23 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/textView9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="sans-serif"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
             android:text="Datos del repartidor"
             android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textColor="@android:color/black"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:fontFamily="light italic" />
 
         <EditText
             android:id="@+id/nombreRepartidor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="Nombre del repartidor"
             android:inputType="textPersonName" />
@@ -38,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="Apellido paterno"
             android:inputType="textPersonName" />
@@ -47,6 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="Apellido Materno"
             android:inputType="textPersonName" />
@@ -54,7 +56,9 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
+
 
             <TextView
                 android:id="@+id/textView12"
@@ -62,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Seleccione sucursal"
+                android:layout_marginTop="10dp"
                 android:textColor="@android:color/background_dark"
                 android:textSize="16sp" />
 
@@ -70,6 +75,7 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1" />
         </LinearLayout>
 
@@ -80,6 +86,7 @@
             android:layout_marginBottom="10dp"
             android:ems="10"
             android:hint="Usuario"
+            android:layout_marginTop="10dp"
             android:inputType="textPersonName" />
 
         <EditText
@@ -88,32 +95,24 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Contraseña"
+            android:layout_marginTop="10dp"
             android:inputType="textPassword" />
 
         <Button
             android:id="@+id/crearCuenta"
-            android:layout_width="150dp"
-            android:layout_height="33dp"
+            android:layout_width="190dp"
+            android:layout_height="40dp"
             android:layout_marginBottom="15dp"
             android:layout_marginStart="120dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:text="Crear Cuenta"
             android:textAlignment="center"
-            android:background="#4f5470"
+            android:background="#82E0AA"
             android:fontFamily="sans-serif"
             android:textColor="@android:color/background_light"
             android:textSize="16sp" />
 
-        <Button
-            android:id="@+id/iniciarSesion"
-            android:layout_width="150dp"
-            android:layout_height="33dp"
-            android:layout_marginStart="120dp"
-            android:background="#4f5470"
-            android:fontFamily="sans-serif"
-            android:text="Iniciar Sesión"
-            android:textColor="@android:color/background_light"
-            android:textSize="16sp" />
+
 
     </LinearLayout>
 

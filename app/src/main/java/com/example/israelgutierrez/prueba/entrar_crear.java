@@ -29,11 +29,11 @@ public class entrar_crear extends AppCompatActivity implements View.OnClickListe
             case R.id.iniciarSesion:
                 Intent intent = new Intent(entrar_crear.this,login_cliente.class);
                 startActivity(intent);
-            break;
+                break;
             case R.id.crearCuenta:
                 Intent intent1 = new Intent(entrar_crear.this,formulario_usuario_nuevo.class);
                 startActivity(intent1);
-            break;
+                break;
         }
     }
 }

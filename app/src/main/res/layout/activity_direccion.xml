@@ -16,36 +16,55 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="150dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="light italic"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
             android:text="Hola" />
 
         <TextView
             android:id="@+id/textView18"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:fontFamily="light italic"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
             android:text="¿A dónde deseas pedir hoy?" />
 
         <Button
             android:id="@+id/direccionCasa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableTop="@drawable/homecasa"
+            android:background="#82E0AA"
+            android:layout_marginTop="30dp"
             android:text="Casa" />
 
         <Button
             android:id="@+id/direccionOficina"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableTop="@drawable/oficina"
+            android:background="#82E0AA"
+            android:layout_marginTop="30dp"
             android:text="Oficina" />
 
         <Button
             android:id="@+id/direccionPareja"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableTop="@drawable/homepareja"
+            android:background="#82E0AA"
+            android:layout_marginTop="30dp"
             android:text="Pareja" />
 
         <Button
             android:id="@+id/pedirOtraDireccion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#82E0AA"
+            android:layout_marginTop="30dp"
             android:text="Agregar otra dirección" />
 
     </LinearLayout>

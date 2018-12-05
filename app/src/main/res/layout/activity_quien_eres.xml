@@ -8,47 +8,77 @@
     tools:context=".QuienEres">
 
     <LinearLayout
+        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
         android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:paddingLeft="60dp"
+            android:text="Regístrate en OrdersHome"
+            android:textColor="#190707"
+            android:textSize="22dp" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="116dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/logo"
+            android:gravity="center"
+            android:scaleType="centerInside"/>
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="30dp"
-            android:fontFamily="cursive"
-            android:text="¿Quién eres?"
+            android:layout_width="64dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="145dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="light italic"
+            android:text="Soy"
+            android:textAlignment="center"
             android:textColor="@android:color/black"
-            android:textSize="36sp"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="106dp"
-            tools:layout_editor_absoluteY="16dp" />
+            android:textSize="32sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/administrador"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:layout_gravity="top|left|right|center_vertical|center_horizontal|fill_horizontal|start|end"
+            android:layout_marginLeft="28dp"
             android:layout_marginBottom="30dp"
-            android:layout_marginStart="120dp"
-            android:background="#525151"
+            android:background="@drawable/boton_redondo"
+            android:drawableTop="@drawable/home"
             android:fontFamily="serif"
+            android:gravity="center"
             android:text="Administrador"
             android:textColor="#FFF"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="135dp"
-            tools:layout_editor_absoluteY="295dp" />
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/repartidor"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:layout_gravity="top|left|right|center_vertical|center_horizontal|fill_horizontal|start|end"
+            android:layout_marginLeft="28dp"
             android:layout_marginBottom="30dp"
-            android:layout_marginStart="120dp"
-            android:background="#525151"
+            android:background="@drawable/boton_redondo"
+            android:drawableTop="@drawable/motorbike"
             android:fontFamily="serif"
+            android:gravity="center"
             android:text="Repartidor"
             android:textColor="#FFF"
             android:textStyle="bold"
@@ -57,17 +87,21 @@
 
         <Button
             android:id="@+id/cliente"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:layout_gravity="top|left|right|center_vertical|center_horizontal|fill_horizontal|start|end"
+            android:layout_marginLeft="28dp"
             android:layout_marginBottom="30dp"
-            android:layout_marginStart="120dp"
-            android:background="#525151"
+            android:background="@drawable/boton_redondo"
+            android:drawableTop="@drawable/face"
             android:fontFamily="serif"
+            android:gravity="center"
             android:text="Cliente"
             android:textColor="#FFF"
             android:textStyle="bold"
-            tools:layout_editor_absoluteX="135dp"
-            tools:layout_editor_absoluteY="231dp" />
+            tools:layout_editor_absoluteX="105dp"
+            tools:layout_editor_absoluteY="200dp" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

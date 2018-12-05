@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class miCuenta extends AppCompatActivity implements View.OnClickListener{
-    TextView ajustes,notificaciones,direcciones;
+    TextView ajustes,notificaciones,direcciones, cerrarSesion;
     String idUsuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +19,9 @@ public class miCuenta extends AppCompatActivity implements View.OnClickListener{
         ajustes = (TextView) findViewById(R.id.ajustes);
         notificaciones = (TextView) findViewById(R.id.notificaciones);
         direcciones = (TextView) findViewById(R.id.direcciones);
+        cerrarSesion = (TextView) findViewById(R.id.cerrarSesion);
 
+        cerrarSesion.setOnClickListener(this);
         direcciones.setOnClickListener(this);
         ajustes.setOnClickListener(this);
         notificaciones.setOnClickListener(this);
@@ -46,7 +48,13 @@ public class miCuenta extends AppCompatActivity implements View.OnClickListener{
                 Intent intent2 = new Intent(miCuenta.this, RastrearPedido.class);
                 intent2.putExtra("idUsuario", idUsuario);
                 startActivity(intent2);
+                break;
+            case R.id.cerrarSesion:
+                Intent intent3 = new Intent(miCuenta.this,MainActivity.class);
+                startActivity(intent3);
+                break;
         }
 
     }
+
 }

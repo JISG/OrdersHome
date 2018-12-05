@@ -51,11 +51,11 @@
 
         <Button
             android:id="@+id/aceptar"
-            android:layout_width="100dp"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="140dp"
-            android:layout_marginTop="50dp"
-            android:background="#4f5470"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="40dp"
+            android:background="#82E0AA"
             android:fontFamily="sans-serif"
             android:text="Aceptar"
             android:textColor="@android:color/background_light"

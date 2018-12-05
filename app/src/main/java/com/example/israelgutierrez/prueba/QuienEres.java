@@ -39,7 +39,7 @@ public class QuienEres extends AppCompatActivity implements View.OnClickListener
                 startActivity(i);
             break;
             case R.id.repartidor:
-                Intent intent = new Intent(QuienEres.this,entrar_crear_repartidor.class);
+                Intent intent = new Intent(QuienEres.this,login_repartidor.class);
                 startActivity(intent);
             break;
 

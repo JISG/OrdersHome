@@ -30,7 +30,7 @@ import java.util.ArrayList;
 public class formularioRepartidor extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener{
 
     EditText nombreRepartidor, apellidoP, apellidoM,usuario,password;
-    Button crearCuenta,iniciarSesion;
+    Button crearCuenta;
     RequestQueue requestQueue;
 
     ArrayList<String> sucursales;
@@ -53,12 +53,10 @@ public class formularioRepartidor extends AppCompatActivity implements View.OnCl
         apellidoP = (EditText) findViewById(R.id.apellidoP);
         apellidoM = (EditText) findViewById(R.id.apellidoM);
         crearCuenta= (Button) findViewById(R.id.crearCuenta);
-        iniciarSesion = (Button) findViewById(R.id.iniciarSesion);
 
 
 
         crearCuenta.setOnClickListener(this);
-        iniciarSesion.setOnClickListener(this);
 
         prueba = (Spinner) findViewById(R.id.prueba);
 
@@ -71,9 +69,7 @@ public class formularioRepartidor extends AppCompatActivity implements View.OnCl
         Intent intent = getIntent();
         bandera = intent.getIntExtra("bandera",0);
 
-        if(bandera==1){
-            iniciarSesion.setVisibility(View.INVISIBLE);
-        }
+
 
     }
 
@@ -118,11 +114,8 @@ public class formularioRepartidor extends AppCompatActivity implements View.OnCl
                     Intent intent = new Intent(formularioRepartidor.this, login_repartidor.class);
                     startActivity(intent);
                 }
-            break;
+                break;
 
-            case R.id.iniciarSesion:
-                Intent intent1 = new Intent(formularioRepartidor.this,login_repartidor.class);
-                startActivity(intent1);
 
         }
     }
