@@ -25,7 +25,7 @@ import java.util.Map;
 public class formulario_usuario_nuevo extends AppCompatActivity implements View.OnClickListener{
 
     EditText nombre,apellidoM,apellidoP,usuario,password;
-    Button crear;
+    Button crear,iniciarSesion;
     RequestQueue requestQueue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +39,10 @@ public class formulario_usuario_nuevo extends AppCompatActivity implements View.
         password = (EditText) findViewById(R.id.password);
 
         crear = (Button) findViewById(R.id.crearCuenta);
-       /* iniciarSesion = (Button) findViewById(R.id.iniciarSesion);
- iniciarSesion.setOnClickListener(this);
-*/
+        iniciarSesion = (Button) findViewById(R.id.iniciarSesion);
+
         crear.setOnClickListener(this);
+        iniciarSesion.setOnClickListener(this);
 
         requestQueue= Volley.newRequestQueue(this);
 
@@ -73,6 +73,8 @@ public class formulario_usuario_nuevo extends AppCompatActivity implements View.
                     usuario.setText("");
                     password.setText("");
                     Toast.makeText(formulario_usuario_nuevo.this, "Registro Exitoso, Inicie Sesión.", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(formulario_usuario_nuevo.this,login_cliente.class);
+                    startActivity(intent);
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -96,14 +98,12 @@ public class formulario_usuario_nuevo extends AppCompatActivity implements View.
         switch (view.getId()) {
             case R.id.crearCuenta:
                 agregarUsuario();
-                Intent intent = new Intent(formulario_usuario_nuevo.this,login_cliente.class);
-                startActivity(intent);
-                // break;
-            /*case R.id.iniciarSesion:
+                break;
+            case R.id.iniciarSesion:
                 Intent intent2 = new Intent(formulario_usuario_nuevo.this,login_cliente.class);
                 startActivity(intent2);
-*/
-                break;
+
+            break;
 
         }
 
