@@ -97,6 +97,8 @@ public class formularioRepartidor extends AppCompatActivity implements View.OnCl
                     usuario.setText("");
                     password.setText("");
                     Toast.makeText(formularioRepartidor.this, "Registro Exitoso. Inicie Sesión", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(formularioRepartidor.this,buscarRepartidor.class);
+                    startActivity(intent);
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -118,8 +120,7 @@ public class formularioRepartidor extends AppCompatActivity implements View.OnCl
             case R.id.crearCuenta:
                 if(bandera ==1){
                     agregarUsuario();
-                    Intent intent = new Intent(formularioRepartidor.this,buscarRepartidor.class);
-                    startActivity(intent);
+
                 }else {
                     agregarUsuario();
                     Intent intent = new Intent(formularioRepartidor.this, login_repartidor.class);
