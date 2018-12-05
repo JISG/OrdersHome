@@ -77,28 +77,39 @@ public class formularioRepartidor extends AppCompatActivity implements View.OnCl
         final String url = "https://sgvshop.000webhostapp.com/guardarRepartidor.php?usuario="+usuario.getText().toString()+"&contrasena="+password.getText().toString()+
                 "&nombre="+nombreRepartidor.getText().toString()+"&apellidoP="+apellidoP.getText().toString()+"&apellidoM="+apellidoM.getText().toString()+"&sucursal="+sucursal;
 
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                nombreRepartidor.setText("");
-                apellidoM.setText("");
-                apellidoP.setText("");
-                usuario.setText("");
-                password.setText("");
-                Toast.makeText(formularioRepartidor.this,"Registro Exitoso. Inicie Sesión",Toast.LENGTH_SHORT).show();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(formularioRepartidor.this);
-                builder.setMessage("Fallo en registro, contacte con el administrador!")
-                        .setNegativeButton("Aceptar",null)
-                        .create().show();
+        if(nombreRepartidor.getText().toString().trim().equalsIgnoreCase("")){
+            nombreRepartidor.setError("Ingrese un nombre");
+        }else if (apellidoM.getText().toString().trim().equalsIgnoreCase("")){
+            apellidoM.setError("Ingrese un apellido");
+        }else if (apellidoP.getText().toString().trim().equalsIgnoreCase("")){
+            apellidoP.setError("Ingrese un apellido");
+        }else if (usuario.getText().toString().trim().equalsIgnoreCase("")){
+            usuario.setError("Ingrese un usuario");
+        }else if (password.getText().toString().trim().equalsIgnoreCase("")){
+            password.setError("Ingrese una contraseña");
+        }else {
+            StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    nombreRepartidor.setText("");
+                    apellidoM.setText("");
+                    apellidoP.setText("");
+                    usuario.setText("");
+                    password.setText("");
+                    Toast.makeText(formularioRepartidor.this, "Registro Exitoso. Inicie Sesión", Toast.LENGTH_SHORT).show();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(formularioRepartidor.this);
+                    builder.setMessage("Fallo en registro, contacte con el administrador!")
+                            .setNegativeButton("Aceptar", null)
+                            .create().show();
 
-            }
-        });
-        requestQueue.add(request);
-
+                }
+            });
+            requestQueue.add(request);
+        }
     }
 
     @Override
