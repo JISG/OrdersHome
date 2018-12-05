@@ -53,27 +53,40 @@ public class formulario_usuario_nuevo extends AppCompatActivity implements View.
         final String url = "https://sgvshop.000webhostapp.com/guardar.php?usuario="+usuario.getText().toString()+"&contrasena="+password.getText().toString()+
                 "&nombre="+nombre.getText().toString()+"&apellidoP="+apellidoP.getText().toString()+"&apellidoM="+apellidoM.getText().toString();
 
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                nombre.setText("");
-                apellidoM.setText("");
-                apellidoP.setText("");
-                usuario.setText("");
-                password.setText("");
-                Toast.makeText(formulario_usuario_nuevo.this,"Registro Exitoso, Inicie Sesión.",Toast.LENGTH_SHORT).show();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(formulario_usuario_nuevo.this);
-                builder.setMessage("Fallo en registro, contacte con el administrador!")
-                        .setNegativeButton("Aceptar",null)
-                        .create().show();
+        if(nombre.getText().toString().trim().equalsIgnoreCase("")){
+            nombre.setError("Ingrese un nombre");
+        }else if (apellidoM.getText().toString().trim().equalsIgnoreCase("")){
+            apellidoM.setError("Ingrese un apellido");
+        }else if (apellidoP.getText().toString().trim().equalsIgnoreCase("")){
+            apellidoP.setError("Ingrese un apellido");
+        }else if (usuario.getText().toString().trim().equalsIgnoreCase("")){
+            usuario.setError("Ingrese un usuario");
+        }else if (password.getText().toString().trim().equalsIgnoreCase("")){
+            password.setError("Ingrese una contraseña");
+        }else {
+            StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    nombre.setText("");
+                    apellidoM.setText("");
+                    apellidoP.setText("");
+                    usuario.setText("");
+                    password.setText("");
+                    Toast.makeText(formulario_usuario_nuevo.this, "Registro Exitoso, Inicie Sesión.", Toast.LENGTH_SHORT).show();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(formulario_usuario_nuevo.this);
+                    builder.setMessage("Fallo en registro, contacte con el administrador!")
+                            .setNegativeButton("Aceptar", null)
+                            .create().show();
 
-            }
-        });
-        requestQueue.add(request);
+                }
+            });
+            requestQueue.add(request);
+        }
+
 
     }
 
