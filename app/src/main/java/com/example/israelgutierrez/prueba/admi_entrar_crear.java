@@ -21,6 +21,7 @@ public class admi_entrar_crear extends AppCompatActivity implements View.OnClick
         entrar.setOnClickListener(this);
         crear.setOnClickListener(this);
     }
+    //comentario....................................................................................
 
     @Override
     public void onClick(View view) {
