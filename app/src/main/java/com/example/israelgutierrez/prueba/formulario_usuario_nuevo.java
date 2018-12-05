@@ -102,7 +102,6 @@ public class formulario_usuario_nuevo extends AppCompatActivity implements View.
             case R.id.iniciarSesion:
                 Intent intent2 = new Intent(formulario_usuario_nuevo.this,login_cliente.class);
                 startActivity(intent2);
-
             break;
 
         }
