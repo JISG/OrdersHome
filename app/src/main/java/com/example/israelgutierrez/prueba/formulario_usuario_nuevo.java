@@ -73,6 +73,8 @@ public class formulario_usuario_nuevo extends AppCompatActivity implements View.
                     usuario.setText("");
                     password.setText("");
                     Toast.makeText(formulario_usuario_nuevo.this, "Registro Exitoso, Inicie Sesión.", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(formulario_usuario_nuevo.this,login_cliente.class);
+                    startActivity(intent);
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -96,8 +98,6 @@ public class formulario_usuario_nuevo extends AppCompatActivity implements View.
         switch (view.getId()) {
             case R.id.crearCuenta:
                 agregarUsuario();
-                Intent intent = new Intent(formulario_usuario_nuevo.this,login_cliente.class);
-                startActivity(intent);
                 // break;
             /*case R.id.iniciarSesion:
                 Intent intent2 = new Intent(formulario_usuario_nuevo.this,login_cliente.class);
