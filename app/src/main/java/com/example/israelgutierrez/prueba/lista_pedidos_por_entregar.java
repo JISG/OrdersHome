@@ -47,6 +47,7 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
     String idRepartidor;
     ArrayList<pedidos> listaPedidos;
     ArrayList<coordenadas> coordenadas;
+    ArrayList<coordenadas> nuevasCoordenadas;
     String idNotificacion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,37 +185,45 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
                 }
             });
             requestQueue.add(request);
+            nuevasCoordenadas = new ArrayList<>();
 
-            /*for(int i=0;i<coordenadas.size();i++) {
+            nuevasCoordenadas = coordenadas;
+            if(!(nuevasCoordenadas==null)) {
+                for (int i = 0; i < nuevasCoordenadas.size(); i++) {
 
-                idNotificacion= coordenadas.get(i).getIdUsuario();
-                float distance=0;
-                Location crntLocation=new Location("crntlocation");
-                crntLocation.setLatitude(latitude);
-                crntLocation.setLongitude(longitude);
+                    idNotificacion = coordenadas.get(i).getIdUsuario();
+                    //System.out.println("idUsuario: " + idNotificacion);
+                    float distance = 0;
+                    Location crntLocation = new Location("crntlocation");
+                    crntLocation.setLatitude(latitude);
+                    crntLocation.setLongitude(longitude);
 
-                Location newLocation=new Location("newlocation");
-                newLocation.setLatitude(Double.parseDouble(coordenadas.get(i).getLatitud()));
-                newLocation.setLongitude(Double.parseDouble(coordenadas.get(i).getLongitud()));
+                    Location newLocation = new Location("newlocation");
+                    newLocation.setLatitude(Double.parseDouble(coordenadas.get(i).getLatitud()));
+                    newLocation.setLongitude(Double.parseDouble(coordenadas.get(i).getLongitud()));
 
 
-                distance = crntLocation.distanceTo(newLocation);
-                if(distance<2){
-                    enviarNotificacion(idNotificacion);
-                    fsdf
+                    distance = crntLocation.distanceTo(newLocation);
+                    if (distance < 200) {
+                        enviarNotificacion(idNotificacion);
+                       // System.out.println("notificacion enviada");
+                        coordenadas.remove(i);
+                    }
+
                 }
-
-            }*/
+            }
 
 
         }
 
         private void enviarNotificacion(String id) {
-            final String url = "https://sgvshop.000webhostapp.com/sendNotifications.php?idUsuario="+id;
+            final String mensaje = "Su pedido está a menos de 200 metros, favor de salir a recibirlo.";
+            final String url = "https://sgvshop.000webhostapp.com/sendNotifications.php?idUsuario="+id+"&mensaje="+mensaje;
 
             StringRequest request2 = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    //System.out.println("notificacion enviadaaaa");
 
                 }
             }, new Response.ErrorListener() {
@@ -277,6 +286,7 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
                             lista = new coordenadas();
                             JSONObject jsonObject = null;
                             jsonObject = json.getJSONObject(i);
+                            lista.setIdUsuario(jsonObject.getString("idUsuario"));
                             lista.setLatitud(jsonObject.getString("latitudCliente"));
                             lista.setLongitud(jsonObject.getString("longitudCliente"));
                             coordenadas.add(lista);

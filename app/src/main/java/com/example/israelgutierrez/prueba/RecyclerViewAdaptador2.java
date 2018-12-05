@@ -50,7 +50,7 @@ public class RecyclerViewAdaptador2 extends RecyclerView.Adapter<RecyclerViewAda
     public RecyclerViewAdaptador2(ArrayList<pedidos> pedidosLista, String idRepartidor) {
 
         this.pedidosLista = pedidosLista;
-        System.out.println("Pedidos que llegan: "+pedidosLista);
+        //System.out.println("Pedidos que llegan: "+pedidosLista);
         this.idRepartidor = idRepartidor;
     }
 
@@ -135,16 +135,17 @@ public class RecyclerViewAdaptador2 extends RecyclerView.Adapter<RecyclerViewAda
             StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    //System.out.println("Notificacion enviada de su pedido ah sarpado");
 
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(cont);
-                    builder.setMessage("Fallo en registro, contacte con el administrador!")
+                    builder.setMessage("Fallo en la toma de pedido, contacte con el administrador!")
                             .setNegativeButton("Aceptar",null)
                             .create().show();
-                    System.out.println("No se hizo el pedido");
+                    //System.out.println("No se hizo el pedido");
 
                 }
             });
