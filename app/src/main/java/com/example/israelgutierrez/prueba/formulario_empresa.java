@@ -77,42 +77,46 @@ public class formulario_empresa extends AppCompatActivity implements View.OnClic
                     "&nombre="+nombreAdmi.getText().toString()+"&apellidoP="+apellidoP.getText().toString()+"&apellidoM="+apellidoM.getText().toString()+"&sucursal="+sucursal.getText().toString()+"&sucursal2="+s2+"&sucursal3="+s3+"&sucursal4="+s4;
 
 
+        if(nombreAdmi.getText().toString().trim().equalsIgnoreCase("")){
+            nombreAdmi.setError("Ingrese un nombre");
+        }else if (apellidoM.getText().toString().trim().equalsIgnoreCase("")){
+            apellidoM.setError("Ingrese un apellido");
+        }else if (apellidoP.getText().toString().trim().equalsIgnoreCase("")){
+            apellidoP.setError("Ingrese un apellido");
+        }else if (sucursal.getText().toString().trim().equalsIgnoreCase("")){
+            sucursal.setError("Ingrese una sucursal");
+        }else if (usuario.getText().toString().trim().equalsIgnoreCase("")){
+            usuario.setError("Ingrese un usuario");
+        }else if (password.getText().toString().trim().equalsIgnoreCase("")){
+            password.setError("Ingrese una contraseña");
+        }else {
 
+            StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    nombreAdmi.setText("");
+                    apellidoM.setText("");
+                    apellidoP.setText("");
+                    usuario.setText("");
+                    password.setText("");
+                    sucursal.setText("");
+                    Toast.makeText(formulario_empresa.this, "Registro Exitoso, Inicie Sesión.", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(formulario_empresa.this, login_empresa.class);
+                    startActivity(intent);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(formulario_empresa.this);
+                    builder.setMessage("Fallo en registro, contacte con el administrador!")
+                            .setNegativeButton("Aceptar", null)
+                            .create().show();
 
+                }
 
-
-        /*if(s2.isEmpty() && s3.isEmpty() && s4.isEmpty()){
-            url = "https://sgvshop.000webhostapp.com/guardarAdministrador.php?usuario="+usuario.getText().toString()+"&contrasena="+password.getText().toString()+
-                    "&nombre="+nombreAdmi.getText().toString()+"&apellidoP="+apellidoP.getText().toString()+"&apellidoM="+apellidoM.getText().toString()+"&sucursal="+sucursal.getText().toString();
-
-        }*/
-
-
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                nombreAdmi.setText("");
-                apellidoM.setText("");
-                apellidoP.setText("");
-                usuario.setText("");
-                password.setText("");
-                sucursal.setText("");
-                Toast.makeText(formulario_empresa.this,"Registro Exitoso, Inicie Sesión.",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(formulario_empresa.this,login_empresa.class);
-                startActivity(intent);
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(formulario_empresa.this);
-                builder.setMessage("Fallo en registro, contacte con el administrador!")
-                        .setNegativeButton("Aceptar",null)
-                        .create().show();
-
-            }
-        });
-        requestQueue.add(request);
+            });
+            requestQueue.add(request);
+        }
 
     }
     @Override
