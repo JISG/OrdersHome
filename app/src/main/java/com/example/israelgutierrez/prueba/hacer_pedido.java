@@ -344,6 +344,8 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
 
         /*if(opciones.getSelectedItem().toString().trim().equalsIgnoreCase("")){
             Toast.makeText(hacer_pedido.this,"Seleccione una dirección",Toast.LENGTH_SHORT).show();
+        }else if(etHora.getText().toString().trim().equalsIgnoreCase("")){
+            etHora.setError("Ingrese la hora");
         }else if (tipo.getCheckedRadioButtonId() == -1){
             Toast.makeText(hacer_pedido.this,"Seleccione el tipo de tortilla",Toast.LENGTH_SHORT).show();
         }else {*/
@@ -367,7 +369,7 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
                 }
             });
             requestQueue.add(request);
-        //}
+        //} termina else de validaciones
     }
 
     public void guardarToken(String idUsuario){
