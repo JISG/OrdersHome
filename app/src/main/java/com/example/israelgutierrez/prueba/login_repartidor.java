@@ -31,7 +31,7 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
     RequestQueue requestQueue;
     RequestQueue requestQueue2;
     String idRepartidor;
-
+    int contador;
 
 
 
@@ -48,6 +48,7 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
         requestQueue= Volley.newRequestQueue(this);
         requestQueue2= Volley.newRequestQueue(this);
         registros = new ArrayList<>();
+        contador=0;
 
 
     }
@@ -87,7 +88,10 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
                                             registros = new ArrayList<pedidos>();
                                             buscarPedidos();
                                             System.out.println("Registros: "+registros);
-                                            startActivity(intent);
+                                            if(contador==2) {
+                                                contador = 0;
+                                                startActivity(intent);
+                                            }
 
                                     }else{
                                         AlertDialog.Builder builder = new AlertDialog.Builder(login_repartidor.this);
@@ -148,6 +152,7 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
                             registros.add(lista);
                         }
                         System.out.println("Registros: "+registros.toString());
+                        contador++;
                     }
 
                 } catch (JSONException e) {

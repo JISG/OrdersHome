@@ -70,6 +70,7 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
         listaPedidos = (ArrayList<pedidos>) intent.getSerializableExtra("lista");
         if(listaPedidos.isEmpty()){
             txPedidos.setVisibility(View.VISIBLE);
+
         }
 
         if(listaPedidos.isEmpty()){
@@ -128,7 +129,7 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.cerrarSesion:
-                recyclerViewPedidos.removeAllViews();
+                //recyclerViewPedidos.removeAllViews();
                 Intent intent = new Intent(lista_pedidos_por_entregar.this,login_repartidor.class);
                 startActivity(intent);
 
@@ -204,9 +205,11 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
 
 
                     distance = crntLocation.distanceTo(newLocation);
+                    System.out.println("Distance: "+distance);
                     if (distance < 200) {
                         enviarNotificacion(idNotificacion);
-                       // System.out.println("notificacion enviada");
+                       System.out.println("notificacion enviada");
+                        System.out.println("idUsuario: "+coordenadas.get(i).getIdUsuario()+" latitud: "+coordenadas.get(i).getLatitud());
                         coordenadas.remove(i);
                     }
 
@@ -281,6 +284,7 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
                     if (success) {
                         coordenadas = null;
                         coordenadas = new ArrayList<>();
+
                         JSONArray json = jsonResponse.optJSONArray("coordenadas");
                         for (int i = 0; i < json.length(); i++) {
                             lista = new coordenadas();
