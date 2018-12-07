@@ -35,6 +35,5 @@ public class admi_entrar_crear extends AppCompatActivity implements View.OnClick
                 startActivity(intent1);
             break;
         }
-
     }
 }

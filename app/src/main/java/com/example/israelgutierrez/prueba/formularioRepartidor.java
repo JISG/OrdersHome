@@ -54,8 +54,6 @@ public class formularioRepartidor extends AppCompatActivity implements View.OnCl
         apellidoM = (EditText) findViewById(R.id.apellidoM);
         crearCuenta= (Button) findViewById(R.id.crearCuenta);
 
-
-
         crearCuenta.setOnClickListener(this);
 
         prueba = (Spinner) findViewById(R.id.prueba);
@@ -68,9 +66,6 @@ public class formularioRepartidor extends AppCompatActivity implements View.OnCl
         String nombreR = nombreRepartidor.getText().toString() + " "+apellidoP.getText().toString()+ " "+apellidoM.getText().toString();
         Intent intent = getIntent();
         bandera = intent.getIntExtra("bandera",0);
-
-
-
     }
 
     public void agregarUsuario(){
@@ -107,7 +102,6 @@ public class formularioRepartidor extends AppCompatActivity implements View.OnCl
                     builder.setMessage("Fallo en registro, contacte con el administrador!")
                             .setNegativeButton("Aceptar", null)
                             .create().show();
-
                 }
             });
             requestQueue.add(request);
@@ -120,15 +114,12 @@ public class formularioRepartidor extends AppCompatActivity implements View.OnCl
             case R.id.crearCuenta:
                 if(bandera ==1){
                     agregarUsuario();
-
                 }else {
                     agregarUsuario();
                     Intent intent = new Intent(formularioRepartidor.this, login_repartidor.class);
                     startActivity(intent);
                 }
                 break;
-
-
         }
     }
 
@@ -163,9 +154,7 @@ public class formularioRepartidor extends AppCompatActivity implements View.OnCl
                         lista.setIdSucursal(jsonObject.getInt("idSucursal"));
                         lista.setNombre(jsonObject.getString("nombre"));
                         sucursales.add((jsonObject.getString("nombre")));
-
                     }
-
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(com.example.israelgutierrez.prueba.formularioRepartidor.this,android.R.layout.simple_spinner_item,sucursales);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     prueba.setAdapter(adapter);
@@ -173,8 +162,6 @@ public class formularioRepartidor extends AppCompatActivity implements View.OnCl
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -183,7 +170,6 @@ public class formularioRepartidor extends AppCompatActivity implements View.OnCl
                 builder.setMessage("Fallo en registro, contacte con el administrador!")
                         .setNegativeButton("Aceptar",null)
                         .create().show();
-
             }
         });
         requestQueue2.add(request);

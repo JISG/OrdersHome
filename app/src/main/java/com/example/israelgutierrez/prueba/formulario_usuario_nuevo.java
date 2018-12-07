@@ -39,13 +39,10 @@ public class formulario_usuario_nuevo extends AppCompatActivity implements View.
         password = (EditText) findViewById(R.id.password);
 
         crear = (Button) findViewById(R.id.crearCuenta);
-       /* iniciarSesion = (Button) findViewById(R.id.iniciarSesion);
- iniciarSesion.setOnClickListener(this);
-*/
+
         crear.setOnClickListener(this);
 
         requestQueue= Volley.newRequestQueue(this);
-
     }
 
 
@@ -83,13 +80,10 @@ public class formulario_usuario_nuevo extends AppCompatActivity implements View.
                     builder.setMessage("Fallo en registro, contacte con el administrador!")
                             .setNegativeButton("Aceptar", null)
                             .create().show();
-
                 }
             });
             requestQueue.add(request);
         }
-
-
     }
 
 
@@ -98,14 +92,7 @@ public class formulario_usuario_nuevo extends AppCompatActivity implements View.
         switch (view.getId()) {
             case R.id.crearCuenta:
                 agregarUsuario();
-                // break;
-            /*case R.id.iniciarSesion:
-                Intent intent2 = new Intent(formulario_usuario_nuevo.this,login_cliente.class);
-                startActivity(intent2);
-*/
                 break;
-
         }
-
     }
 }

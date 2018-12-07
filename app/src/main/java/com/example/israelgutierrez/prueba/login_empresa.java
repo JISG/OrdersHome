@@ -70,11 +70,8 @@ public class login_empresa extends AppCompatActivity implements View.OnClickList
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-
                             }
                         };
-
-
                         LoginRequestJefe loginRequest = new LoginRequestJefe(username,contrasena,responseListener);
                         RequestQueue queue = Volley.newRequestQueue(login_empresa.this);
                         queue.add(loginRequest);
@@ -84,10 +81,8 @@ public class login_empresa extends AppCompatActivity implements View.OnClickList
                     }
                 }
                 else{
-                    Toast.makeText(login_empresa.this,"Ingrese un nombre de usuario.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(login_empresa.this,"Ingrese nombre de usuario.",Toast.LENGTH_SHORT).show();
                 }
-
-
         }
     }
 }

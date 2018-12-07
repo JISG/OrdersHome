@@ -47,7 +47,6 @@ public class buscarRepartidor extends AppCompatActivity implements View.OnClickL
         sucursales = new ArrayList<>();
         requestQueue2= Volley.newRequestQueue(this);
         buscarRepartidor = (Button) findViewById(R.id.buscarRepartidor);
-        //sucursal = (EditText) findViewById(R.id.sucursal);
         repartidor = (EditText) findViewById(R.id.repartidor);
         agregarRepartidor =(Button) findViewById(R.id.agregarRepartidor);
         buscarRepartidor.setOnClickListener(this);
@@ -69,62 +68,67 @@ public class buscarRepartidor extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.buscarRepartidor:
-                final String sucu= sucursal.toString();
-                final String repar= repartidor.getText().toString();
-                final String url = "https://sgvshop.000webhostapp.com/buscarRepartidor.php?sucursal="+sucu+"&repartidor="+repar;
-                StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        listaRegistros lista= null;
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("succes");
-                            if(success) {
-                                JSONArray json = jsonResponse.optJSONArray("usuario");
-                                for (int i = 0; i < json.length(); i++) {
-                                    lista = new listaRegistros();
-                                    JSONObject jsonObject = null;
-                                    jsonObject = json.getJSONObject(i);
-                                    lista.setNombreCliente(jsonObject.getString("nombreCliente"));
-                                    lista.setKilos((float) jsonObject.getDouble("kilos"));
-                                    lista.setDireccion(jsonObject.getString("direccion"));
-                                    registros.add(lista);
+                if(sucursalesSP.getSelectedItem().toString().trim().equalsIgnoreCase("")){
+                    Toast.makeText(buscarRepartidor.this,"Seleccione una sucursal",Toast.LENGTH_SHORT).show();
+                }else {
+                    final String sucu = sucursal.toString();
+                    final String repar = repartidor.getText().toString();
+                    final String url = "https://sgvshop.000webhostapp.com/buscarRepartidor.php?sucursal=" + sucu + "&repartidor=" + repar;
+
+                    if (repartidor.getText().toString().trim().equalsIgnoreCase("")) {
+                        repartidor.setError("Ingrese nombre del repartidor");
+                    } else {
+                        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                listaRegistros lista = null;
+                                try {
+                                    JSONObject jsonResponse = new JSONObject(response);
+                                    boolean success = jsonResponse.getBoolean("succes");
+                                    if (success) {
+                                        JSONArray json = jsonResponse.optJSONArray("usuario");
+                                        for (int i = 0; i < json.length(); i++) {
+                                            lista = new listaRegistros();
+                                            JSONObject jsonObject = null;
+                                            jsonObject = json.getJSONObject(i);
+                                            lista.setNombreCliente(jsonObject.getString("nombreCliente"));
+                                            lista.setKilos((float) jsonObject.getDouble("kilos"));
+                                            lista.setDireccion(jsonObject.getString("direccion"));
+                                            registros.add(lista);
+                                        }
+
+                                        Intent intent = new Intent(buscarRepartidor.this, listadoPedidosEntregados.class);
+                                        intent.putParcelableArrayListExtra("lista", registros);
+                                        buscarRepartidor.this.startActivity(intent);
+                                    } else {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(buscarRepartidor.this);
+                                        builder.setMessage("Nombre de repartidor o Sucursal incorrectos. Revise sus datos.")
+                                                .setNegativeButton("Aceptar", null)
+                                                .create().show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
-
-                                Intent intent = new Intent(buscarRepartidor.this, listadoPedidosEntregados.class);
-                                intent.putParcelableArrayListExtra("lista", registros);
-                                buscarRepartidor.this.startActivity(intent);
                             }
-                            else{
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(buscarRepartidor.this);
-                                builder.setMessage("Nombre de repartidor o Sucursal incorrectos. Revise sus datos.")
-                                        .setNegativeButton("Aceptar",null)
+                                builder.setMessage("Repartidor no encontrado intente otra vez!")
+                                        .setNegativeButton("Aceptar", null)
                                         .create().show();
+
                             }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        //Toast.makeText(buscarRepartidor.this,"Registro Exitoso, Inicie Sesión.",Toast.LENGTH_SHORT).show();
+                        });
+                        requestQueue.add(request);
                     }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(buscarRepartidor.this);
-                        builder.setMessage("Repartidor no encontrado intente otra vez!")
-                                .setNegativeButton("Aceptar",null)
-                                .create().show();
-
-                    }
-                });
-                requestQueue.add(request);
+                }
             break;
 
             case R.id.agregarRepartidor:
                 Intent intent = new Intent(buscarRepartidor.this,formularioRepartidor.class);
                 intent.putExtra("bandera",1);
                 startActivity(intent);
-
             break;
         }
     }
@@ -132,7 +136,6 @@ public class buscarRepartidor extends AppCompatActivity implements View.OnClickL
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         sucursal = (String) adapterView.getItemAtPosition(i);
-
     }
 
     @Override
@@ -149,7 +152,8 @@ public class buscarRepartidor extends AppCompatActivity implements View.OnClickL
             public void onResponse(String response) {
                 Sucursales lista= null;
                 try {
-                    sucursales.add("Seleccione Sucursal");
+                    //sucursales.add("Seleccione Sucursal");
+                    sucursales.add("");
                     JSONObject jsonResponse = new JSONObject(response);
                     JSONArray json = jsonResponse.optJSONArray("sucursales");
                     for(int i=0;i<json.length();i++){
@@ -159,9 +163,7 @@ public class buscarRepartidor extends AppCompatActivity implements View.OnClickL
                         lista.setIdSucursal(jsonObject.getInt("idSucursal"));
                         lista.setNombre(jsonObject.getString("nombre"));
                         sucursales.add((jsonObject.getString("nombre")));
-
                     }
-
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(com.example.israelgutierrez.prueba.buscarRepartidor.this,android.R.layout.simple_spinner_item,sucursales);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     sucursalesSP.setAdapter(adapter);
@@ -169,8 +171,6 @@ public class buscarRepartidor extends AppCompatActivity implements View.OnClickL
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
             }
         }, new Response.ErrorListener() {
             @Override

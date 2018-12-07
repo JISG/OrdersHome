@@ -101,13 +101,10 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
         imgUser = (ImageView) findViewById(R.id.imgUser);
         pago = (TextView) findViewById(R.id.pago);
 
-
-
         pedir.setOnClickListener(this);
         imgUser.setOnClickListener(this);
 
         etHora = (EditText) findViewById(R.id.et_mostrar_hora_picker);
-
 
         ibObtenerHora = (ImageButton) findViewById(R.id.ib_obtener_hora);
 
@@ -137,7 +134,6 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
         idUsuario=id;
         guardarToken(idUsuario);
         obtenerDirecciones(id);
-
 
         user.setText("Bienvenido "+name);
         opciones = (Spinner) findViewById(R.id.spinner);
@@ -207,19 +203,16 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
 
                 String horaFormateada =  (hourOfDay < 9)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
                 String minutoFormateado = (minute < 9)? String.valueOf(CERO + minute):String.valueOf(minute);
-
                 String AM_PM;
                 if(hourOfDay < 12) {
                     AM_PM = "a.m.";
                 } else {
                     AM_PM = "p.m.";
                 }
-
                 etHora.setText(horaFormateada + DOS_PUNTOS + minutoFormateado + " " + AM_PM);
             }
 
         }, hora, minuto, false);
-
         recogerHora.show();
     }
 
@@ -238,11 +231,7 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
             latitud = nuevaListaDirecciones.get(position).getLatitud();
             longitud = nuevaListaDirecciones.get(position).getLongitud();
             direccionPedido = nuevaListaDirecciones.get(position).getDireccion();
-
-
         }
-
-
     }
 
     @Override
@@ -259,7 +248,7 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
             public void onResponse(String response) {
                 Sucursales lista= null;
                 try {
-                    sucursales.add("Selecciona");
+                    sucursales.add("");
                     JSONObject jsonResponse = new JSONObject(response);
                     JSONArray json = jsonResponse.optJSONArray("sucursales");
                     for(int i=0;i<json.length();i++){
@@ -269,18 +258,13 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
                         lista.setIdSucursal(jsonObject.getInt("idSucursal"));
                         lista.setNombre(jsonObject.getString("nombre"));
                         sucursales.add((jsonObject.getString("nombre")));
-
                     }
-
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(com.example.israelgutierrez.prueba.hacer_pedido.this,android.R.layout.simple_spinner_item,sucursales);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     prueba.setAdapter(adapter);
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -304,7 +288,6 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
             public void onResponse(String response) {
 
                 try {
-
                     //tagDirecciones.add("Selecciona");
                     JSONObject jsonResponse = new JSONObject(response);
                     JSONArray json = jsonResponse.optJSONArray("direcciones");
@@ -325,7 +308,6 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
                             nuevaListaDirecciones.add(listaDirecciones);
                         }
 
-
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(com.example.israelgutierrez.prueba.hacer_pedido.this, android.R.layout.simple_spinner_item, tagDirecciones);
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         direcciones.setAdapter(adapter);
@@ -336,8 +318,6 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -346,7 +326,6 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
                 builder.setMessage("Fallo en registro, contacte con el administrador!")
                         .setNegativeButton("Aceptar",null)
                         .create().show();
-
             }
         });
         requestQueue3.add(request);
@@ -354,36 +333,41 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
 
     public void hacePedido(){
         int radioButtonId = tipo.getCheckedRadioButtonId();
-
-
         View radioButton = tipo.findViewById(radioButtonId);
         int indice = tipo.indexOfChild(radioButton);
-
-
         RadioButton rb = (RadioButton) tipo.getChildAt(indice);
         String tipoTortilla = rb.getText().toString();
-
         etHora.setText(etHora.getText().toString().replace(" ","%20"));
+
         final String url = "https://sgvshop.000webhostapp.com/insertPedido.php?idUsuario="+idUsuario+"&nombreCliente="+name+"&direccion="+direccionPedido+
                 "&kilos="+kilos+"&horaEntrega="+etHora.getText().toString()+"&fecha="+fecha+"&nombreSucursal="+sucursalSeleccionada+"&tipoTortilla="+tipoTortilla+"&latitudCliente="+latitud+"&longitudCliente="+longitud;
 
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(hacer_pedido.this);
-                builder.setMessage("Fallo en realización de pedido, contacte con el administrador!")
-                        .setNegativeButton("Aceptar",null)
-                        .create().show();
-
-            }
-        });
-        requestQueue.add(request);
-
+        /*if(opciones.getSelectedItem().toString().trim().equalsIgnoreCase("")){
+            Toast.makeText(hacer_pedido.this,"Seleccione una dirección",Toast.LENGTH_SHORT).show();
+        }else if (tipo.getCheckedRadioButtonId() == -1){
+            Toast.makeText(hacer_pedido.this,"Seleccione el tipo de tortilla",Toast.LENGTH_SHORT).show();
+        }else {*/
+            StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    /*AlertDialog.Builder builder = new AlertDialog.Builder(hacer_pedido.this);
+                    builder.setMessage("Tu pedido está en camino, Gracias por usar OrdersHome!")
+                            .setNegativeButton("Aceptar",null)
+                            .create().show();
+                    etHora.setText("");
+                    pago.setText("$ ");*/
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(hacer_pedido.this);
+                    builder.setMessage("Fallo en realización de pedido, contacte con el administrador!")
+                            .setNegativeButton("Aceptar", null)
+                            .create().show();
+                }
+            });
+            requestQueue.add(request);
+        //}
     }
 
     public void guardarToken(String idUsuario){

@@ -65,7 +65,6 @@ public class PedirOtraDireccion extends FragmentActivity implements OnMapReadyCa
         mMap.moveCamera(CameraUpdateFactory.newLatLng(defaultPos));
         mMap.moveCamera(CameraUpdateFactory.zoomTo(16));
 
-
         bfindDirection = (Button) findViewById(R.id.findDirection);
         bfindDirection.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
@@ -76,33 +75,33 @@ public class PedirOtraDireccion extends FragmentActivity implements OnMapReadyCa
 
                 int maxResultados = 1;
                 List<Address> adress = null;
+
                 String direc = direccion.getText().toString();
-                //String direc = "zoomat";
-                try {
-                    adress = geo.getFromLocationName(direc, maxResultados);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if(direccion.getText().toString().trim().equalsIgnoreCase("")){
+                    direccion.setError("Ingrese una dirección");
+                }else{
+                    try {
+                        adress = geo.getFromLocationName(direc, maxResultados);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    pos = defaultPos;
+                    try {
+                        pos = new LatLng(adress.get(0).getLatitude(), adress.get(0).getLongitude());
+                        encontrado=true;
+                    }catch (Exception ex){
+                        Toast.makeText(PedirOtraDireccion.this, "No se ha encontrado la dirección especificada", Toast.LENGTH_SHORT).show();
+                    }
+                    // Add a marker in Sydney and move the camera
+                    if(encontrado) {
+                        mMap.addMarker(new MarkerOptions().position(pos).title(direc));
+                    }
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
+                    mMap.moveCamera(CameraUpdateFactory.zoomTo(16));
                 }
-                 pos = defaultPos;
-                try {
-                    pos = new LatLng(adress.get(0).getLatitude(), adress.get(0).getLongitude());
-                    encontrado=true;
-                }catch (Exception ex){
-                    Toast.makeText(PedirOtraDireccion.this, "No se ha encontrado la dirección especificada", Toast.LENGTH_SHORT).show();
-                }
-
-
-
-                // Add a marker in Sydney and move the camera
-                if(encontrado) {
-                    mMap.addMarker(new MarkerOptions().position(pos).title(direc));
-                }
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
-                mMap.moveCamera(CameraUpdateFactory.zoomTo(16));
-            }
-        });
-
-    }
+            } //termina funcion onclick
+        }); //listener
+    } //map
 
     @Override
     public void onClick(View view) {
