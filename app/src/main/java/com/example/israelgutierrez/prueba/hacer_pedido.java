@@ -342,22 +342,11 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
         final String url = "https://sgvshop.000webhostapp.com/insertPedido.php?idUsuario="+idUsuario+"&nombreCliente="+name+"&direccion="+direccionPedido+
                 "&kilos="+kilos+"&horaEntrega="+etHora.getText().toString()+"&fecha="+fecha+"&nombreSucursal="+sucursalSeleccionada+"&tipoTortilla="+tipoTortilla+"&latitudCliente="+latitud+"&longitudCliente="+longitud;
 
-        /*if(opciones.getSelectedItem().toString().trim().equalsIgnoreCase("")){
-            Toast.makeText(hacer_pedido.this,"Seleccione una dirección",Toast.LENGTH_SHORT).show();
-        }else if(etHora.getText().toString().trim().equalsIgnoreCase("")){
-            etHora.setError("Ingrese la hora");
-        }else if (tipo.getCheckedRadioButtonId() == -1){
-            Toast.makeText(hacer_pedido.this,"Seleccione el tipo de tortilla",Toast.LENGTH_SHORT).show();
-        }else {*/
+
             StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    /*AlertDialog.Builder builder = new AlertDialog.Builder(hacer_pedido.this);
-                    builder.setMessage("Tu pedido está en camino, Gracias por usar OrdersHome!")
-                            .setNegativeButton("Aceptar",null)
-                            .create().show();
-                    etHora.setText("");
-                    pago.setText("$ ");*/
+
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -369,7 +358,6 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
                 }
             });
             requestQueue.add(request);
-        //} termina else de validaciones
     }
 
     public void guardarToken(String idUsuario){
