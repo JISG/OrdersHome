@@ -143,10 +143,10 @@ public class buscarRepartidor extends AppCompatActivity implements View.OnClickL
 
     }
 
-    public void obtenerSucursales(String idUsuario){
+    public void obtenerSucursales(final String idUsuario){
 
         final String url = "https://sgvshop.000webhostapp.com/SelecSucursales.php?idUsuario="+idUsuario;
-
+       // String url1 = "https://sgvshop.000webhostapp.com/SelecSucursales.php?idAdministrador="+idAdministrador;
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -157,12 +157,15 @@ public class buscarRepartidor extends AppCompatActivity implements View.OnClickL
                     JSONObject jsonResponse = new JSONObject(response);
                     JSONArray json = jsonResponse.optJSONArray("sucursales");
                     for(int i=0;i<json.length();i++){
+                       // if(idUsuario == sucursal) {
                         lista = new Sucursales();
                         JSONObject jsonObject = null;
                         jsonObject=json.getJSONObject(i);
                         lista.setIdSucursal(jsonObject.getInt("idSucursal"));
-                        lista.setNombre(jsonObject.getString("nombre"));
-                        sucursales.add((jsonObject.getString("nombre")));
+
+                            lista.setNombre(jsonObject.getString("nombre"));
+                            sucursales.add((jsonObject.getString("nombre")));
+                       // }
                     }
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(com.example.israelgutierrez.prueba.buscarRepartidor.this,android.R.layout.simple_spinner_item,sucursales);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
