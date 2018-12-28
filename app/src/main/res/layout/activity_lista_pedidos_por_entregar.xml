@@ -15,10 +15,10 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/listaNotificaciones"
+            android:scrollbars="vertical"
             android:layout_width="wrap_content"
             android:layout_height="399dp"
             android:layout_marginLeft="10dp">
-
         </android.support.v7.widget.RecyclerView>
 
         <LinearLayout

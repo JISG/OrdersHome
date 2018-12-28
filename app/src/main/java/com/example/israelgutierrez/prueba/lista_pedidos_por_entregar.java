@@ -70,7 +70,6 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
         listaPedidos = (ArrayList<pedidos>) intent.getSerializableExtra("lista");
         if(listaPedidos.isEmpty()){
             txPedidos.setVisibility(View.VISIBLE);
-
         }
 
         if(listaPedidos.isEmpty()){
@@ -84,6 +83,7 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
         String idUsuario = intent.getStringExtra("idUsuario");
         guardarToken(idUsuario);
         selecCoordenadas();
+
         adaptadorPedidos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,8 +92,6 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
             }
         });
         recyclerViewPedidos.setAdapter(adaptadorPedidos);
-
-
 
         time time = new time();
         time.execute();
@@ -132,14 +130,12 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
                 //recyclerViewPedidos.removeAllViews();
                 Intent intent = new Intent(lista_pedidos_por_entregar.this,login_repartidor.class);
                 startActivity(intent);
-
         }
     }
 
     public void hilo() {
         try {
             Thread.sleep(1000);
-            //System.out.println("Hiloooo");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -154,13 +150,10 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-
             for (int i = 1; i <= 10; i++) {
                 hilo();
             }
             return true;
-
-
         }
 
         @Override
@@ -215,8 +208,6 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
 
                 }
             }
-
-
         }
 
         private void enviarNotificacion(String id) {
@@ -237,14 +228,10 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
                             .setNegativeButton("Aceptar",null)
                             .create().show();
                     System.out.println("No se hizo el pedido");
-
                 }
             });
             requestQueue2.add(request2);
         }
-
-
-
     }
 
     public void guardarToken(String idUsuario){
@@ -269,7 +256,6 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
             }
         });
         requestQueue2.add(request);
-
     }
 
     public void selecCoordenadas(){
@@ -297,12 +283,9 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
                         }
                         System.out.println("Coordenadas: "+coordenadas.toString());
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-                //Toast.makeText(buscarRepartidor.this,"Registro Exitoso, Inicie Sesión.",Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -311,10 +294,8 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
                 builder.setMessage("Repartidor no encontrado intente otra vez!")
                         .setNegativeButton("Aceptar", null)
                         .create().show();
-
             }
         });
         requestQueue3.add(request3);
     }
-
 }
