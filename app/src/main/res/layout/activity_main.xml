@@ -49,10 +49,10 @@
 
         <Button
             android:id="@+id/entrar"
-            android:layout_width="145dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="130dp"
-            android:layout_marginTop="35dp"
+            android:layout_width="190dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="42dp"
             android:background="@drawable/boton_redondo"
             android:fontFamily="sans-serif"
             android:text="Entrar"
