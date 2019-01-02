@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -297,7 +296,7 @@ public class hacer_pedido extends AppCompatActivity implements View.OnClickListe
                             listaDirecciones listaDirecciones = new listaDirecciones();
                             JSONObject jsonObject = null;
                             jsonObject = json.getJSONObject(i);
-                            Log.d("Mensaje: ", "onResponse: "+jsonObject.getInt("idDireccion"));
+                            //Log.d("Mensaje: ", "onResponse: "+jsonObject.getInt("idDireccion"));
                             listaDirecciones.setIdDireccion(jsonObject.getInt("idDireccion"));
                             listaDirecciones.setiDUsuario(jsonObject.getInt("idUsuario"));
                             listaDirecciones.setDireccion(jsonObject.getString("direccion"));
