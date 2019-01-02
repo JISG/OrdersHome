@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:550566624921:android:18da5736287f79f9",
         "android_client_info": {
-          "package_name": "com.orders.home.prueba"
+          "package_name": "com.orders.home.ordersHome"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "550566624921-4nqbagc43ruarrn134t0egg66927sji0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.orders.home.prueba",
+            "package_name": "com.orders.home.ordersHome",
             "certificate_hash": "3ac738bc8a15c9f0b006a6c4959ea943f891d784"
           }
         },
