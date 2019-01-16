@@ -68,7 +68,7 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
         listaPedidos = new ArrayList<>();
         Intent intent = getIntent();
         listaPedidos = (ArrayList<pedidos>) intent.getSerializableExtra("lista");
-        if(listaPedidos.isEmpty()){
+        if(listaPedidos.isEmpty()){ //Message de NO HAY PEDIDOS
             txPedidos.setVisibility(View.VISIBLE);
         }
 
@@ -88,10 +88,11 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"Seleccion: "+listaPedidos.get(recyclerViewPedidos.getChildAdapterPosition(view)).getIdUsuario(),Toast.LENGTH_SHORT).show();
-
             }
         });
         recyclerViewPedidos.setAdapter(adaptadorPedidos);
+
+
 
         time time = new time();
         time.execute();
