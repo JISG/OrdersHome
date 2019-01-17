@@ -118,7 +118,7 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
                 else {
                     Toast.makeText(login_repartidor.this,"Ingrese un nombre de usuario.",Toast.LENGTH_SHORT).show();
                 }
-
+//
 
             break;
         }
