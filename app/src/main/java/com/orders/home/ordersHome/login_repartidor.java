@@ -22,6 +22,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Random;
 
 public class login_repartidor extends AppCompatActivity implements View.OnClickListener {
     Button entrar;
@@ -32,8 +35,8 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
     RequestQueue requestQueue2;
     String idRepartidor;
     int contador;
-
-
+    double stop = 0;
+    ArrayList<Cromosoma> cromoList;
 
     @Override
 
@@ -126,6 +129,8 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
         final String url = "https://sgvshop.000webhostapp.com/listarPedidos.php?idUsuario="+id;
         System.out.println("Buscando pedidos del id: "+id);
 
+
+
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -137,21 +142,53 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
                         registros = null;
                         registros = new ArrayList<>();
                         JSONArray json = jsonResponse.optJSONArray("pedidos");
+
+                        Deliver[] orders = new Deliver[json.length()];
+
                         for (int i = 0; i < json.length(); i++) {
                             lista = new pedidos();
                             JSONObject jsonObject = null;
                             jsonObject = json.getJSONObject(i);
-                            lista.setIdPedido(jsonObject.getInt("idPedido"));
-                            lista.setIdUsuario(jsonObject.getInt("idUsuario"));
-                            lista.setNombreCliente(jsonObject.getString("nombreCliente"));
-                            lista.setDireccion(jsonObject.getString("direccion"));
-                            lista.setKilos((float) jsonObject.getDouble("kilos"));
-                            lista.setHoraEntrega(jsonObject.getString("horaEntrega"));
-                            lista.setTipoTortilla(jsonObject.getString("tipoTortilla"));
-                            registros.add(lista);
+                            int idPedido = jsonObject.getInt("idPedido");
+                            int idUsuario = jsonObject.getInt("idUsuario");
+                            String nombreCliente = jsonObject.getString("nombreCliente");
+                            String direccion = jsonObject.getString("idireccion");
+                            int kilos = jsonObject.getInt("kilos");
+                            String horaEntrega = jsonObject.getString("horaEntrega");
+                            String[] time = horaEntrega.split(":");
+
+                            String tipoTortilla = jsonObject.getString("tipoTortilla");
+
+                            orders[i] = new Deliver(kilos,Integer.parseInt(time[0]), Integer.parseInt(time[1]),tipoTortilla, idPedido);
+
                         }
-                        System.out.println("Registros: "+registros.toString());
-                        contador++;
+                        cromoList = poblacionInicial(orders);
+                        int index = 0;
+                        while (stop(10000)){
+                            index = seleccion();
+                            ArrayList<Cromosoma> hijos = crossover(index);
+
+                            for (int i = 0; i < hijos.size(); i++){
+                                cromoList.add(hijos.get(i));
+                            }
+                            hijos.clear();
+                        }
+
+                        Deliver[] rutas = cromoList.get(index).getCromoToDeliver();
+                        for (int i = 0; i < rutas.length; i++){
+
+                            lista.setIdPedido(rutas[i].getId());
+                            lista.setIdUsuario(0);
+                            lista.setNombreCliente("Cliente "+i);
+                            lista.setDireccion("Direccion");
+                            lista.setKilos(rutas[i].getKdt());
+                            lista.setHoraEntrega(rutas[i].getHour()+":"+rutas[i].getMinute());
+                            lista.setTipoTortilla(rutas[i].getTipoTortilla());
+                            registros.add(lista);
+                            System.out.println("Registros: "+registros.toString());
+                            contador++;
+                        }
+
                     }
 
                 } catch (JSONException e) {
@@ -171,6 +208,157 @@ public class login_repartidor extends AppCompatActivity implements View.OnClickL
             }
         });
         requestQueue.add(request);
+    }
+
+    public ArrayList<Cromosoma> poblacionInicial(Deliver[] pedidos){
+        Deliver[] tempDeliver = new Deliver[pedidos.length];
+        tempDeliver[0] = pedidos[0];
+        tempDeliver[pedidos.length-1] = pedidos[pedidos.length-1];
+        ArrayList<Deliver> shuff = new ArrayList<>();
+        ArrayList<Cromosoma> cromoList = new ArrayList<>();
+
+
+        for (int j = 1; j < pedidos.length - 1; j++){
+            shuff.add(pedidos[j]);
+        }
+
+        for (int i = 0;  i < 10 ; i++){
+            Collections.shuffle(shuff, new Random(i));
+
+            for (int j = 0; j < shuff.size(); j++){
+                tempDeliver[j+1] = shuff.get(j);
+            }
+
+            cromoList.add(new Cromosoma(tempDeliver.clone()));
+
+        }
+        return cromoList;
+    }
+
+    public int seleccion(){
+        double bestFitness = cromoList.get(0).fitness(0);
+        double currentFitness;
+        int index = 0;
+
+        for (int i = 0; i < cromoList.size(); i++){
+            currentFitness = cromoList.get(i).fitness();
+            if (currentFitness < bestFitness) {
+                bestFitness = currentFitness;
+                index = i;
+            }
+        }
+        return index;
+    }
+    public ArrayList<Cromosoma> crossover(int index){
+        Deliver[] parentOne = cromoList.get(index).getCromoToDeliver();
+        Cromosoma cromo1 = null;
+        Cromosoma cromo2 = null;
+        ArrayList<Cromosoma> cromoChild = new ArrayList<>();
+
+        for (int i = 0; i < cromoList.size(); i++) {
+            double R = Math.random();
+            if(i != index){ //&& R < 0.01){
+                //System.out.println("cruza: " + index + " + " + i);
+                Deliver[] parentTwo = cromoList.get(i).getCromoToDeliver();
+                cromo1 = new Cromosoma(getChildRoute(parentOne, parentTwo));
+                cromo2 = new Cromosoma(getChildRoute(parentTwo, parentOne));
+
+                if(!cromo1.equals(cromo2)){
+                    cromoChild.add(cromo1);
+                }
+
+                if(!cromo2.equals(cromo1)){
+                    cromoChild.add(cromo2);
+                }
+            }
+        }
+        return cromoChild;
+    }
+    public Deliver[] getChildRoute(Deliver[] route1, Deliver[] route2){
+        Deliver[] toReturn = new Deliver[route2.length];
+        ArrayList<Deliver> temp = new ArrayList();
+        Random r = new Random();
+
+        int routeLen = route1.length;
+
+        int indexOne = r.nextInt((route1.length - 2) + 1) + 1;
+        int indexTwo = r.nextInt((route2.length - 2) + 1) + 1;
+
+        while(indexTwo < indexOne){
+            indexTwo = r.nextInt((route2.length - 2) + 1) + 1;
+        }
+
+        Deliver d = new Deliver(-1, -1, -1, "null", -1);
+        for (int i = 0; i < routeLen; i++) {
+            toReturn[i] = d;
+        }
+
+        for (int i = indexOne; i < indexTwo; i++) {
+            toReturn[i] = route1[i];
+        }
+        ArrayList<Deliver> y = new ArrayList();
+        int j = 0;
+        for (int i = 1; i < route2.length-1; i++) {
+            if(arrayContains(toReturn, route2[i].getId()) == false){
+                y.add(route2[i]);
+            }
+        }
+        j = 0;
+        for (int i = 1; i < toReturn.length-1; i++) {
+            if (toReturn[i].getNeighbor() == -1) {
+                toReturn[i] = y.get(j);
+                if(j < y.size()-1)
+                    j++;
+            }
+        }
+        toReturn[0] = route1[0];
+        toReturn[routeLen - 1] = route1[0];
+        return toReturn;
+    }
+    public boolean arrayContains(Deliver[] child, int id){
+        int cont = 0;
+        for (int i = 1; i < child.length-1; i++) {
+            if(id == child[i].getId()){
+                cont++;
+            }
+        }
+        if (cont == 0) {
+            return false;
+        }else
+            return true;
+    }
+
+    public boolean stop(int iterations){
+        int size = cromoList.size();
+        int index = 0;
+        int cont = 0;
+
+        double bestFitness = cromoList.get(0).fitness();
+        double currentFitness = 0;
+
+        for (int i = 0; i < size; i++) {
+            currentFitness = cromoList.get(i).fitness();
+            if(currentFitness < bestFitness){
+                bestFitness = currentFitness;
+                index = i;
+            }
+        }
+
+        if(stop != currentFitness){
+            stop = currentFitness;
+            return true;
+        }
+        for (int i = 0; i < cromoList.size(); i++) {
+            currentFitness = cromoList.get(i).fitness();
+            if (currentFitness == bestFitness) {
+                cont++;
+            }
+        }
+
+        if(cont >= iterations && cont >= cromoList.size()/2){
+            return false;
+        }
+        return true;
     }
 
     public void buscarIdRepartidor(){

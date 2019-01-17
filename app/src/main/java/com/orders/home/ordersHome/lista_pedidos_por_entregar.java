@@ -77,13 +77,16 @@ public class lista_pedidos_por_entregar extends AppCompatActivity implements Vie
             listaPedidos = new ArrayList<>();
         }
 
+        //comparacion de las horas
+        //compare(listaPedidos p1, listaPedidos p2)
+
 
         idRepartidor= intent.getStringExtra("idRepartidor");
         adaptadorPedidos = new RecyclerViewAdaptador2(listaPedidos,idRepartidor);
         String idUsuario = intent.getStringExtra("idUsuario");
         guardarToken(idUsuario);
         selecCoordenadas();
-
+        //listaPedidos.get(1).getDireccion(); obtener dato
         adaptadorPedidos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
